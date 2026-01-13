@@ -7,6 +7,7 @@ import { authorType } from "./authorType";
 import sermon from "./sermon";
 import event from "./event";
 import series from "./series";
+import Testimonies from "./testimony";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -17,5 +18,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     sermon,
     event,
     series,
+    Testimonies,
   ],
 };
