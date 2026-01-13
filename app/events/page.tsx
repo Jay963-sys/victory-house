@@ -28,14 +28,14 @@ export default async function EventsPage() {
         {/* Background Image */}
         <div className="absolute inset-0 opacity-50">
           <Image
-            src="/images/16.jpg" // Consistent immersive background
+            src="/images/16.jpg"
             alt="Events Calendar"
             fill
             className="object-cover"
           />
         </div>
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-stone-900/60 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-stone-900 via-stone-900/60 to-transparent" />
 
         <div className="relative z-10">
           <h1 className="text-5xl md:text-7xl font-serif font-bold text-white mb-6">
@@ -63,7 +63,7 @@ export default async function EventsPage() {
                 >
                   {/* Date Badge */}
                   {/* CHANGED: Orange hover bg -> Green */}
-                  <div className="flex-shrink-0 w-20 h-20 bg-stone-100 rounded-2xl flex flex-col items-center justify-center border border-stone-200 group-hover:bg-green-50 group-hover:border-green-100 transition-colors">
+                  <div className="shrink-0 w-20 h-20 bg-stone-100 rounded-2xl flex flex-col items-center justify-center border border-stone-200 group-hover:bg-green-50 group-hover:border-green-100 transition-colors">
                     {/* CHANGED: Red text -> Green text for brand consistency */}
                     <span className="text-green-600 font-bold uppercase text-xs tracking-wider">
                       {eventDate.toLocaleString("default", { month: "short" })}
@@ -74,7 +74,7 @@ export default async function EventsPage() {
                   </div>
 
                   {/* Info */}
-                  <div className="flex-grow">
+                  <div className="grow">
                     <div className="flex items-center gap-3 mb-2">
                       {/* CHANGED: Orange hover badge -> Green */}
                       <span className="px-3 py-1 rounded-full bg-stone-100 text-stone-600 text-[10px] font-bold uppercase tracking-widest group-hover:bg-green-100 group-hover:text-green-700 transition-colors">
@@ -105,7 +105,7 @@ export default async function EventsPage() {
                   </div>
 
                   {/* Action Button */}
-                  <div className="flex-shrink-0 w-full md:w-auto mt-4 md:mt-0"></div>
+                  <div className="shrink-0 w-full md:w-auto mt-4 md:mt-0"></div>
                 </div>
               );
             })}

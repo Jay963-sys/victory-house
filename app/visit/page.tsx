@@ -19,13 +19,13 @@ export default function VisitPage() {
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden bg-stone-900">
         <div className="absolute inset-0 opacity-50">
           <Image
-            src="/images/31.jpg" // Local image for speed and consistency
+            src="/images/31.jpg"
             fill
             className="object-cover"
             alt="Welcome to Victory House"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-stone-900/40 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-stone-900 via-stone-900/40 to-transparent" />
 
         <div className="relative z-10 text-center max-w-4xl px-6">
           <motion.h1
@@ -52,7 +52,7 @@ export default function VisitPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Box 1: Times */}
           <div className="bg-white p-10 rounded-3xl shadow-sm border border-stone-100 flex items-start gap-6">
-            <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center text-green-600 flex-shrink-0">
+            <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center text-green-600 shrink-0">
               <Clock size={28} />
             </div>
             <div className="w-full">
@@ -97,7 +97,7 @@ export default function VisitPage() {
 
           {/* Box 2: Location */}
           <div className="bg-white p-10 rounded-3xl shadow-sm border border-stone-100 flex items-start gap-6">
-            <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center text-green-600 flex-shrink-0">
+            <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center text-green-600 shrink-0">
               <MapPin size={28} />
             </div>
             <div>

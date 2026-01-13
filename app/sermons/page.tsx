@@ -38,7 +38,7 @@ export default async function SermonsPage() {
           />
         </div>
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-stone-900/60 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-stone-900 via-stone-900/60 to-transparent" />
 
         <div className="relative z-10">
           <h1 className="text-5xl md:text-7xl font-serif font-bold text-white mb-6">

@@ -14,7 +14,7 @@ export default function AboutPage() {
             alt="Congregation"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-stone-900/40 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-stone-900 via-stone-900/40 to-transparent" />
 
         <div className="relative z-10 text-center max-w-4xl px-6">
           <h1 className="text-5xl md:text-8xl font-serif font-bold text-white mb-8">
@@ -47,7 +47,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Leader 1 */}
             <div className="group">
-              <div className="aspect-[3/4] bg-stone-200 rounded-xl overflow-hidden mb-6 relative">
+              <div className="aspect-3/4 bg-stone-200 rounded-xl overflow-hidden mb-6 relative">
                 <Image
                   src="/images/8.jpg"
                   width={600}
@@ -66,7 +66,7 @@ export default function AboutPage() {
 
             {/* Leader 2 */}
             <div className="group">
-              <div className="aspect-[3/4] bg-stone-200 rounded-xl overflow-hidden mb-6 relative">
+              <div className="aspect-3/4 bg-stone-200 rounded-xl overflow-hidden mb-6 relative">
                 <Image
                   src="/images/15.jpg"
                   width={600}
@@ -83,7 +83,7 @@ export default function AboutPage() {
 
             {/* Leader 3 */}
             <div className="group">
-              <div className="aspect-[3/4] bg-stone-200 rounded-xl overflow-hidden mb-6 relative">
+              <div className="aspect-3/4 bg-stone-200 rounded-xl overflow-hidden mb-6 relative">
                 <Image
                   src="/images/19.jpg"
                   width={600}

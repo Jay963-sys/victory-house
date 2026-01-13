@@ -74,8 +74,8 @@ export default function Navbar() {
             open
               ? "bg-white border-b border-stone-200 py-3 shadow-md"
               : scrolled
-                ? "bg-white/95 supports-[backdrop-filter]:backdrop-blur-md border-b border-stone-200 py-3 shadow-sm"
-                : "bg-gradient-to-b from-black/60 to-transparent border-transparent py-6"
+                ? "bg-white/95 supports-backdrop-filter:backdrop-blur-md border-b border-stone-200 py-3 shadow-sm"
+                : "bg-linear-to-b from-black/60 to-transparent border-transparent py-6"
           }
         `}
       >

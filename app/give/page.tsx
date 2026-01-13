@@ -34,7 +34,7 @@ export default function GivePage() {
             alt="Giving"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-stone-100 via-stone-900/80 to-stone-900/40" />
+        <div className="absolute inset-0 bg-linear-to-t from-stone-100 via-stone-900/80 to-stone-900/40" />
         <div className="relative z-10 max-w-3xl mx-auto">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -62,7 +62,7 @@ export default function GivePage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-8 border-2 border-amber-200 shadow-lg"
+          className="bg-linear-to-br from-amber-50 to-orange-50 rounded-2xl p-8 border-2 border-amber-200 shadow-lg"
         >
           <div className="flex items-start gap-4">
             <div className="text-4xl">📖</div>
@@ -88,7 +88,7 @@ export default function GivePage() {
           transition={{ delay: 0.2 }}
           className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-stone-200"
         >
-          <div className="bg-gradient-to-r from-green-500 to-green-600 text-white text-center py-6 px-6">
+          <div className="bg-linear-to-r from-green-500 to-green-600 text-white text-center py-6 px-6">
             <h2 className="text-2xl md:text-3xl font-bold mb-2">
               Choose Your Giving Method
             </h2>
@@ -106,10 +106,10 @@ export default function GivePage() {
             <div className="w-16 h-16 rounded-2xl bg-purple-100 flex items-center justify-center shrink-0 shadow-md">
               <Image src="/zelle.png" width={32} height={32} alt="Zelle" />
             </div>
-            <div className="flex-grow">
+            <div className="grow">
               <h3 className="text-2xl font-bold text-stone-900">Zelle</h3>
             </div>
-            <div className="flex flex-col items-end gap-2 min-w-[240px]">
+            <div className="flex flex-col items-end gap-2 min-w-60">
               <div className="flex items-center gap-2 bg-stone-50 border-2 border-stone-200 rounded-xl pl-4 pr-2 py-2 w-full justify-between hover:border-purple-300 transition-colors">
                 <span className="font-mono font-bold text-stone-900 truncate select-all">
                   {ZELLE_EMAIL}
@@ -143,10 +143,10 @@ export default function GivePage() {
             <div className="w-16 h-16 rounded-2xl bg-green-100 flex items-center justify-center shrink-0 shadow-md">
               <Image src="/cashapp.svg" width={32} height={32} alt="CashApp" />
             </div>
-            <div className="flex-grow">
+            <div className="grow">
               <h3 className="text-2xl font-bold text-stone-900">CashApp</h3>
             </div>
-            <div className="flex flex-col items-end gap-2 min-w-[240px]">
+            <div className="flex flex-col items-end gap-2 min-w-60">
               <div className="flex items-center gap-2 bg-white border-2 border-stone-200 rounded-xl pl-4 pr-2 py-2 w-full justify-between hover:border-green-300 transition-colors">
                 <span className="font-mono font-bold text-stone-900 truncate select-all">
                   {CASHAPP_TAG}
@@ -180,14 +180,14 @@ export default function GivePage() {
             <div className="w-16 h-16 rounded-2xl bg-blue-100 flex items-center justify-center shrink-0 shadow-md">
               <Image src="/paypal.svg" width={32} height={32} alt="PayPal" />
             </div>
-            <div className="flex-grow">
+            <div className="grow">
               <h3 className="text-2xl font-bold text-stone-900">PayPal</h3>
             </div>
             <a
               href="https://paypal.me/victoryalltheway"
               target="_blank"
               rel="noopener noreferrer"
-              className="min-w-[240px] flex items-center justify-center gap-2 bg-[#0070BA] hover:bg-[#005ea6] text-white px-6 py-4 rounded-xl font-bold transition-all shadow-md hover:shadow-xl hover:scale-105"
+              className="min-w-60 flex items-center justify-center gap-2 bg-[#0070BA] hover:bg-[#005ea6] text-white px-6 py-4 rounded-xl font-bold transition-all shadow-md hover:shadow-xl hover:scale-105"
             >
               Give via PayPal.me →
             </a>
@@ -202,7 +202,7 @@ export default function GivePage() {
             <div className="w-16 h-16 rounded-2xl bg-stone-200 flex items-center justify-center shrink-0 shadow-md">
               <Image src="/mail.svg" width={32} height={32} alt="Mail" />
             </div>
-            <div className="flex-grow">
+            <div className="grow">
               <h3 className="text-2xl font-bold text-stone-900">
                 Mail a Check
               </h3>
@@ -213,7 +213,7 @@ export default function GivePage() {
                 </span>
               </p>
             </div>
-            <div className="min-w-[240px] text-left md:text-right bg-white md:bg-transparent p-4 md:p-0 rounded-xl border-2 md:border-none border-stone-200 shadow-sm md:shadow-none">
+            <div className="min-w-60 text-left md:text-right bg-white md:bg-transparent p-4 md:p-0 rounded-xl border-2 md:border-none border-stone-200 shadow-sm md:shadow-none">
               <p className="font-bold text-stone-900 text-lg">
                 4352 W Parker Ave
               </p>
@@ -229,7 +229,7 @@ export default function GivePage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="bg-gradient-to-br from-stone-900 to-stone-800 text-white rounded-2xl p-8 md:p-10"
+          className="bg-linear-to-br from-stone-900 to-stone-800 text-white rounded-2xl p-8 md:p-10"
         >
           <h3 className="text-2xl md:text-3xl font-bold mb-6 text-center">
             Frequently Asked Questions

@@ -27,9 +27,6 @@ export default function Hero() {
   const [mounted, setMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
-  // --------------------------------------------------
-  // IMAGE ROTATION
-  // --------------------------------------------------
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentImage((prev) => (prev + 1) % HERO_IMAGES.length);
@@ -60,14 +57,14 @@ export default function Hero() {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-[100svh] w-full overflow-hidden bg-stone-900"
+      className="relative min-h-svh w-full overflow-hidden bg-stone-900"
     >
       {/* BACKGROUND */}
       <motion.div
         className="absolute inset-0 z-0 will-change-transform"
         style={{
           opacity,
-          y: mounted && !isMobile ? bgY : 0, // ✅ SAFE
+          y: mounted && !isMobile ? bgY : 0,
         }}
       >
         <AnimatePresence mode="wait">
@@ -84,13 +81,13 @@ export default function Hero() {
           />
         </AnimatePresence>
 
-        <div className="absolute inset-0 bg-black/30 z-[5]" />
-        <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-900/80 to-transparent z-10" />
+        <div className="absolute inset-0 bg-black/30 z-5" />
+        <div className="absolute inset-0 bg-linear-to-t from-stone-950 via-stone-900/80 to-transparent z-10" />
       </motion.div>
 
       {/* NOISE */}
       <div
-        className="absolute inset-0 z-[2] opacity-25 pointer-events-none mix-blend-overlay"
+        className="absolute inset-0 z-2 opacity-25 pointer-events-none mix-blend-overlay"
         style={{
           backgroundImage:
             'url("https://grainy-gradients.vercel.app/noise.svg")',
@@ -102,8 +99,8 @@ export default function Hero() {
         className="
           relative z-10
           flex flex-col justify-center
-          min-h-[100svh]
-          pt-[120px] md:pt-[140px]
+          min-h-svh
+          pt-130 md:pt-35
           pb-12 md:pb-16
           px-6 md:px-12
           max-w-7xl mx-auto
@@ -122,7 +119,7 @@ export default function Hero() {
               transition={{ duration: 0.8 }}
               className="flex items-center gap-4 mb-6"
             >
-              <div className="h-[2px] w-12 bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]" />
+              <div className="h-2 w-12 bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]" />
               <span className="text-green-400 font-mono text-sm tracking-widest uppercase font-bold">
                 Welcome To
               </span>
@@ -135,7 +132,7 @@ export default function Hero() {
               className="text-6xl md:text-8xl font-serif font-bold text-white leading-[0.9] mb-8"
             >
               RCCG <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-green-600">
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-green-400 to-green-600">
                 Victory House Chicago.
               </span>
             </motion.h1>

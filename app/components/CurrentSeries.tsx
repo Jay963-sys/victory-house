@@ -7,7 +7,6 @@ import { urlFor } from "@/sanity/lib/client";
 import { useAudio } from "../context/AudioContext";
 import Image from "next/image";
 
-// 1. Updated Interface with ALL required fields
 interface SeriesData {
   title: string;
   subtitle: string;
@@ -17,8 +16,8 @@ interface SeriesData {
     title: string;
     date: string;
     slug: string;
-    preacher?: string; // Optional in case it's missing
-    fileUrl: string; // Critical for audio
+    preacher?: string;
+    fileUrl: string;
   }[];
 }
 
@@ -26,10 +25,8 @@ export default function CurrentSeries({ data }: { data: SeriesData }) {
   const ref = useRef<HTMLDivElement>(null);
   const { playTrack } = useAudio();
 
-  // Safety Check
   if (!data) return null;
 
-  // --- 3D MOUSE TILT LOGIC ---
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const mouseX = useSpring(x, { stiffness: 500, damping: 100 });
@@ -44,7 +41,6 @@ export default function CurrentSeries({ data }: { data: SeriesData }) {
   const rotateX = useTransform(mouseY, [-300, 300], [10, -10]);
   const rotateY = useTransform(mouseX, [-300, 300], [-10, 10]);
 
-  // --- HELPER TO PLAY AUDIO ---
   const handlePlay = (sermon: any) => {
     if (!sermon.fileUrl) {
       alert("No audio file found for this sermon.");
@@ -68,8 +64,8 @@ export default function CurrentSeries({ data }: { data: SeriesData }) {
   return (
     <section className="relative py-32 bg-stone-950 overflow-hidden text-white">
       {/* Background Ambience - Switched to Green */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-green-600/20 blur-[120px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-900/10 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute top-0 right-0 w-125 h-125 bg-green-600/20 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-125 h-125 bg-blue-900/10 blur-[120px] rounded-full pointer-events-none" />
 
       {/* Noise Texture */}
       <div
@@ -95,7 +91,7 @@ export default function CurrentSeries({ data }: { data: SeriesData }) {
                 y.set(0);
               }}
               style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-              className="relative aspect-[4/5] w-full max-w-md mx-auto rounded-xl bg-stone-800 shadow-2xl cursor-pointer group"
+              className="relative aspect-4/5 w-full max-w-md mx-auto rounded-xl bg-stone-800 shadow-2xl cursor-pointer group"
               // CLICK ART TO PLAY LATEST
               onClick={() =>
                 data.recentSermons?.[0] && handlePlay(data.recentSermons[0])
@@ -112,7 +108,7 @@ export default function CurrentSeries({ data }: { data: SeriesData }) {
                   alt={data.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-black/80 to-transparent" />
               </div>
 
               {/* Tag stays Red as it indicates "Live/Current" status, or we can make it Green if you prefer */}
@@ -143,14 +139,14 @@ export default function CurrentSeries({ data }: { data: SeriesData }) {
               viewport={{ once: true }}
             >
               <div className="flex items-center gap-4 justify-center lg:justify-start mb-6 text-green-500">
-                <span className="h-[1px] w-12 bg-green-500/50"></span>
+                <span className="h-px w-12 bg-green-500/50"></span>
                 <span className="font-mono text-sm tracking-widest uppercase">
                   {data.subtitle}
                 </span>
               </div>
 
               <h2 className="text-5xl md:text-7xl font-serif font-bold mb-6 leading-[0.9]">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-green-100 to-green-500">
+                <span className="text-transparent bg-clip-text bg-linear-to-r from-white via-green-100 to-green-500">
                   {data.title}
                 </span>
               </h2>
