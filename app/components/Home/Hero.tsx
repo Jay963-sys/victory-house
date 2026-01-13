@@ -97,15 +97,15 @@ export default function Hero() {
       {/* CONTENT */}
       <motion.div
         className="
-          relative z-10
-          flex flex-col justify-center
-          min-h-svh
-          pt-130 md:pt-35
-          pb-12 md:pb-16
-          px-6 md:px-12
-          max-w-7xl mx-auto
-          will-change-transform
-        "
+    relative z-10
+    flex flex-col justify-center
+    min-h-screen
+    pt-24 md:pt-32
+    pb-12 md:pb-16
+    px-6 md:px-12
+    max-w-7xl mx-auto
+    will-change-transform
+  "
         style={{
           y: mounted && !isMobile ? textY : 0,
         }}
