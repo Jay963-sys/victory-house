@@ -5,24 +5,18 @@ import Image from "next/image";
 export default function AboutPage() {
   return (
     <main className="min-h-screen bg-stone-50">
-      {/* --- HERO --- */}
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden bg-stone-900">
-        <div className="absolute inset-0 opacity-40">
-          {/* Replace with a picture of your actual church congregation if available */}
+        <div className="absolute inset-0 opacity-50">
           <Image
-            src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=2670&auto=format&fit=crop"
-            width={600}
-            height={800}
-            className="w-full h-full object-cover"
+            src="/images/21.jpg"
+            fill
+            className="object-cover"
             alt="Congregation"
           />
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-stone-900/40 to-transparent" />
 
         <div className="relative z-10 text-center max-w-4xl px-6">
-          <span className="text-orange-500 font-mono text-sm tracking-widest uppercase mb-4 block">
-            Since 2026
-          </span>
           <h1 className="text-5xl md:text-8xl font-serif font-bold text-white mb-8">
             Unorthodox <br />{" "}
             <span className="italic text-stone-400">Faith.</span>
@@ -37,7 +31,7 @@ export default function AboutPage() {
           the faithful. We believe church shouldn't be boring, and faith
           shouldn't be fake."
         </p>
-        <div className="mt-12 w-24 h-1 bg-orange-500 mx-auto" />
+        <div className="mt-12 w-24 h-1 bg-green-500 mx-auto" />
       </section>
 
       {/* --- LEADERSHIP GRID --- */}
@@ -55,17 +49,17 @@ export default function AboutPage() {
             <div className="group">
               <div className="aspect-[3/4] bg-stone-200 rounded-xl overflow-hidden mb-6 relative">
                 <Image
-                  src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=2574&auto=format&fit=crop"
+                  src="/images/8.jpg"
                   width={600}
                   height={800}
                   alt="Pastor"
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
               <h3 className="text-xl font-bold text-stone-900">
                 Pastor Emmanuel
               </h3>
-              <p className="text-orange-600 font-mono text-xs uppercase tracking-widest">
+              <p className="text-green-600 font-mono text-xs uppercase tracking-widest">
                 Lead Pastor
               </p>
             </div>
@@ -74,16 +68,16 @@ export default function AboutPage() {
             <div className="group">
               <div className="aspect-[3/4] bg-stone-200 rounded-xl overflow-hidden mb-6 relative">
                 <Image
-                  src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=2576&auto=format&fit=crop"
+                  src="/images/15.jpg"
                   width={600}
                   height={800}
                   alt="Pastor"
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
-              <h3 className="text-xl font-bold text-stone-900">Pastor Sarah</h3>
-              <p className="text-orange-600 font-mono text-xs uppercase tracking-widest">
-                Executive Pastor
+              <h3 className="text-xl font-bold text-stone-900">Pastor Dami</h3>
+              <p className="text-green-600 font-mono text-xs uppercase tracking-widest">
+                Asst Pastor
               </p>
             </div>
 
@@ -91,23 +85,24 @@ export default function AboutPage() {
             <div className="group">
               <div className="aspect-[3/4] bg-stone-200 rounded-xl overflow-hidden mb-6 relative">
                 <Image
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=2670&auto=format&fit=crop"
+                  src="/images/19.jpg"
                   width={600}
                   height={800}
                   alt="Pastor"
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
-              <h3 className="text-xl font-bold text-stone-900">Min. Jay</h3>
-              <p className="text-orange-600 font-mono text-xs uppercase tracking-widest">
-                Media Director
+              <h3 className="text-xl font-bold text-stone-900">
+                Deaconess Bukola
+              </h3>
+              <p className="text-green-600 font-mono text-xs uppercase tracking-widest">
+                Deaconess{" "}
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* --- VALUES / BELIEFS --- */}
       <section className="py-24 px-6 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
           <div>
@@ -138,7 +133,8 @@ export default function AboutPage() {
             ].map((item, i) => (
               <div
                 key={i}
-                className="border-l-2 border-orange-200 pl-6 hover:border-orange-500 transition-colors"
+                // CHANGED: Orange borders to Green
+                className="border-l-2 border-green-200 pl-6 hover:border-green-500 transition-colors"
               >
                 <h4 className="font-bold text-xl text-stone-900 mb-2">
                   {item.title}

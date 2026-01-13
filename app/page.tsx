@@ -35,15 +35,12 @@ const seriesQuery = groq`
   }
 `;
 
-// Helper to fetch data
 async function getEvents() {
-  // revalidate: 30 means it checks for new data every 30 seconds
-  return await client.fetch(eventsQuery, {}, { next: { revalidate: 30 } });
+  return await client.fetch(eventsQuery, {}, { next: { revalidate: 3600 } });
 }
 
 async function getCurrentSeries() {
-  // revalidate: 30 means it checks for new data every 30 seconds
-  return await client.fetch(seriesQuery, {}, { next: { revalidate: 30 } });
+  return await client.fetch(seriesQuery, {}, { next: { revalidate: 3600 } });
 }
 
 export default async function Home() {

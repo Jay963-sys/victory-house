@@ -5,24 +5,22 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, Calendar, Clock, MapPin } from "lucide-react";
 import { urlFor } from "@/sanity/lib/client";
 import Image from "next/image";
+import Link from "next/link";
 
-// Define the shape of the data coming from Sanity
 export interface SanityEvent {
   _id: string;
   title: string;
   category: string;
-  date: string; // ISO String from Sanity
+  date: string;
   location: string;
   image: any;
 }
 
-const DEFAULT_PREVIEW_IMAGE =
-  "https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=2670&auto=format&fit=crop";
+const DEFAULT_PREVIEW_IMAGE = "/images/22.jpg";
 
 export default function EventsSection({ events }: { events: SanityEvent[] }) {
   const [hoveredEvent, setHoveredEvent] = useState<string | null>(null);
 
-  // Helper to format ISO date to readable string
   const formatDate = (isoString: string) => {
     const date = new Date(isoString);
     return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
@@ -43,17 +41,20 @@ export default function EventsSection({ events }: { events: SanityEvent[] }) {
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
           <div>
             <h2 className="text-4xl md:text-6xl font-serif font-bold text-stone-900 mb-4">
-              Upcoming <span className="text-orange-600">Gatherings.</span>
+              Upcoming <span className="text-green-600">Gatherings.</span>
             </h2>
             <p className="text-stone-500 max-w-md">
               We don't just attend church; we do life together. Join us for one
               of our upcoming events.
             </p>
           </div>
-          <button className="group flex items-center gap-2 text-stone-900 font-bold uppercase tracking-wider text-sm hover:text-orange-600 transition-colors">
+          <Link
+            href="/events"
+            className="group flex items-center gap-2 text-stone-900 font-bold uppercase tracking-wider text-sm hover:text-green-600 transition-colors"
+          >
             View Full Calendar
             <ArrowUpRight className="w-5 h-5 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
-          </button>
+          </Link>
         </div>
 
         {/* Desktop Interactive Layout */}
@@ -62,13 +63,13 @@ export default function EventsSection({ events }: { events: SanityEvent[] }) {
           <div className="w-1/2 flex flex-col z-10">
             {events.map((event, index) => (
               <div
-                key={event._id} // Fixed: Use unique ID
+                key={event._id}
                 onMouseEnter={() => setHoveredEvent(event._id)}
                 onMouseLeave={() => setHoveredEvent(null)}
                 className="group relative border-t border-stone-200 py-10 cursor-pointer transition-all duration-300 pr-8"
               >
                 <div className="flex justify-between items-baseline mb-2">
-                  <span className="text-sm font-bold text-orange-600 uppercase tracking-widest mb-2 block">
+                  <span className="text-sm font-bold text-green-600 uppercase tracking-widest mb-2 block">
                     {event.category}
                   </span>
                   <span className="text-stone-400 text-sm font-mono group-hover:text-stone-900 transition-colors">
@@ -94,7 +95,8 @@ export default function EventsSection({ events }: { events: SanityEvent[] }) {
           </div>
 
           {/* Preview Side (Sticky) */}
-          <div className="w-1/2 relative h-[650px] rounded-[2.5rem] overflow-hidden sticky top-24 shadow-2xl shadow-stone-200/50">
+          {/* CHANGED: Increased height to h-[800px] for portrait images */}
+          <div className="w-1/2 relative h-[800px] rounded-[2.5rem] overflow-hidden sticky top-24 shadow-2xl shadow-stone-200/50">
             <AnimatePresence mode="wait">
               {hoveredEvent ? (
                 (() => {
@@ -109,7 +111,6 @@ export default function EventsSection({ events }: { events: SanityEvent[] }) {
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.4 }}
                     >
-                      {/* Use urlFor to get real image string */}
                       <Image
                         src={urlFor(active.image).width(800).url()}
                         width={600}
@@ -120,7 +121,7 @@ export default function EventsSection({ events }: { events: SanityEvent[] }) {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
                       <div className="absolute bottom-0 left-0 w-full p-10">
                         <p className="text-white text-xl font-bold flex items-center gap-3">
-                          <MapPin className="text-orange-500" />
+                          <MapPin className="text-green-500" />
                           {active.location}
                         </p>
                       </div>
@@ -140,13 +141,9 @@ export default function EventsSection({ events }: { events: SanityEvent[] }) {
                     width={600}
                     height={800}
                     alt="Community"
-                    className="w-full h-full object-cover brightness-75"
+                    className="w-full h-full object-cover brightness-90"
                   />
-                  <div className="absolute bottom-0 left-0 w-full p-10">
-                    <p className="font-serif italic text-3xl text-white/90">
-                      Life together.
-                    </p>
-                  </div>
+                  {/* CHANGED: Removed the "Life together" text block here */}
                 </motion.div>
               )}
             </AnimatePresence>
@@ -177,7 +174,7 @@ export default function EventsSection({ events }: { events: SanityEvent[] }) {
                   {event.title}
                 </h3>
                 <p className="text-stone-500 text-sm flex items-center gap-2 mb-4">
-                  <MapPin size={14} className="text-orange-600" />{" "}
+                  <MapPin size={14} className="text-green-600" />{" "}
                   {event.location}
                 </p>
                 <div className="flex gap-4 border-t border-stone-100 pt-4">

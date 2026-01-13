@@ -47,14 +47,14 @@ export default function SermonArchive({ sermons }: { sermons: Sermon[] }) {
 
           <div className="relative w-full md:w-96 group">
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <Search className="h-5 w-5 text-stone-400 group-focus-within:text-orange-500 transition-colors" />
+              <Search className="h-5 w-5 text-stone-400 group-focus-within:text-green-500 transition-colors" />
             </div>
             <input
               type="text"
               placeholder="Search title, preacher, or series..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="block w-full pl-12 pr-4 py-4 bg-white border border-stone-200 rounded-full text-stone-900 placeholder-stone-400 focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none shadow-sm transition-all"
+              className="block w-full pl-12 pr-4 py-4 bg-white border border-stone-200 rounded-full text-stone-900 placeholder-stone-400 focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none shadow-sm transition-all"
             />
           </div>
         </div>
@@ -75,7 +75,7 @@ export default function SermonArchive({ sermons }: { sermons: Sermon[] }) {
                   if (sermon.fileUrl) {
                     playTrack({
                       title: sermon.title,
-                      preacher: sermon.preacher || "Victory Chapel",
+                      preacher: sermon.preacher || "Victory House",
                       src: sermon.fileUrl,
                       image: sermon.imageUrl,
                     });
@@ -87,11 +87,9 @@ export default function SermonArchive({ sermons }: { sermons: Sermon[] }) {
                 {/* Image Section */}
                 <div className="aspect-video relative overflow-hidden bg-stone-200">
                   {sermon.imageUrl ? (
-                    <Image
+                    <img
                       src={sermon.imageUrl}
                       alt={sermon.title}
-                      width={600}
-                      height={800}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   ) : (
@@ -128,12 +126,12 @@ export default function SermonArchive({ sermons }: { sermons: Sermon[] }) {
                       {new Date(sermon.date).toLocaleDateString()}
                     </span>
                     <span className="w-1 h-1 bg-stone-300 rounded-full" />
-                    <span className="flex items-center gap-1 text-orange-600">
+                    <span className="flex items-center gap-1 text-green-600">
                       <User size={12} /> {sermon.preacher}
                     </span>
                   </div>
 
-                  <h3 className="font-serif font-bold text-2xl text-stone-900 leading-tight group-hover:text-orange-600 transition-colors">
+                  <h3 className="font-serif font-bold text-2xl text-stone-900 leading-tight group-hover:text-green-600 transition-colors">
                     {sermon.title}
                   </h3>
                 </div>
@@ -150,7 +148,7 @@ export default function SermonArchive({ sermons }: { sermons: Sermon[] }) {
             </p>
             <button
               onClick={() => setSearchQuery("")}
-              className="mt-4 text-orange-600 font-bold hover:underline"
+              className="mt-4 text-green-600 font-bold hover:underline"
             >
               Clear Search
             </button>

@@ -10,18 +10,19 @@ import {
   ArrowRight,
   CheckCircle,
 } from "lucide-react";
+import Image from "next/image";
 
 export default function VisitPage() {
   return (
     <main className="min-h-screen bg-stone-50">
       {/* --- HERO SECTION --- */}
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden bg-stone-900">
-        <div className="absolute inset-0 opacity-60">
-          {/* Replace with a photo of people greeting each other */}
-          <img
-            src="https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2670&auto=format&fit=crop"
-            className="w-full h-full object-cover"
-            alt="Welcome to Church"
+        <div className="absolute inset-0 opacity-50">
+          <Image
+            src="/images/31.jpg" // Local image for speed and consistency
+            fill
+            className="object-cover"
+            alt="Welcome to Victory House"
           />
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-stone-900/40 to-transparent" />
@@ -51,32 +52,52 @@ export default function VisitPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Box 1: Times */}
           <div className="bg-white p-10 rounded-3xl shadow-sm border border-stone-100 flex items-start gap-6">
-            <div className="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 flex-shrink-0">
+            <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center text-green-600 flex-shrink-0">
               <Clock size={28} />
             </div>
-            <div>
+            <div className="w-full">
               <h3 className="text-2xl font-bold text-stone-900 mb-2">
                 Service Times
               </h3>
               <p className="text-stone-500 mb-4">
                 We gather every week for worship and the word.
               </p>
-              <ul className="space-y-2">
-                <li className="flex items-center gap-3 font-bold text-stone-800">
-                  <span className="w-2 h-2 bg-orange-500 rounded-full" />{" "}
-                  Sundays @ 10:00 AM
-                </li>
-                <li className="flex items-center gap-3 font-bold text-stone-800">
-                  <span className="w-2 h-2 bg-stone-300 rounded-full" />{" "}
-                  Wednesdays @ 6:30 PM (Youth)
-                </li>
-              </ul>
+
+              {/* Detailed Schedule */}
+              <div className="space-y-3">
+                <div>
+                  <p className="text-xs font-bold text-green-600 uppercase tracking-widest mb-1">
+                    Sundays
+                  </p>
+                  <ul className="space-y-1 text-stone-700 text-sm font-medium">
+                    <li className="flex justify-between">
+                      <span>Bethel Service</span> <span>9:00 AM</span>
+                    </li>
+                    <li className="flex justify-between">
+                      <span>School of the Word</span> <span>10:30 AM</span>
+                    </li>
+                    <li className="flex justify-between font-bold text-stone-900">
+                      <span>Victory House</span> <span>11:00 AM</span>
+                    </li>
+                  </ul>
+                </div>
+                <div className="pt-2 border-t border-stone-100">
+                  <p className="text-xs font-bold text-green-600 uppercase tracking-widest mb-1">
+                    Tuesdays
+                  </p>
+                  <ul className="space-y-1 text-stone-700 text-sm font-medium">
+                    <li className="flex justify-between">
+                      <span>Bible Study (Zoom)</span> <span>6:30 PM</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
 
           {/* Box 2: Location */}
           <div className="bg-white p-10 rounded-3xl shadow-sm border border-stone-100 flex items-start gap-6">
-            <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 flex-shrink-0">
+            <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center text-green-600 flex-shrink-0">
               <MapPin size={28} />
             </div>
             <div>
@@ -94,7 +115,7 @@ export default function VisitPage() {
               <a
                 href="https://maps.google.com"
                 target="_blank"
-                className="inline-flex items-center gap-2 text-orange-600 font-bold uppercase text-xs tracking-widest mt-4 hover:underline"
+                className="inline-flex items-center gap-2 text-green-600 font-bold uppercase text-xs tracking-widest mt-4 hover:underline"
               >
                 Get Directions <ArrowRight size={14} />
               </a>
@@ -144,72 +165,6 @@ export default function VisitPage() {
                 <p className="text-stone-500 leading-relaxed">{item.desc}</p>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* --- PLAN YOUR VISIT FORM --- */}
-      <section className="py-24 bg-orange-600 text-white relative overflow-hidden">
-        {/* Abstract Background Shapes */}
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-
-        <div className="max-w-4xl mx-auto px-6 relative z-10 flex flex-col md:flex-row items-center gap-12">
-          <div className="flex-1">
-            <h2 className="text-4xl font-serif font-bold mb-6">
-              Let us know you're coming!
-            </h2>
-            <p className="text-orange-100 text-lg mb-8">
-              Fill out this quick form and we will:
-            </p>
-            <ul className="space-y-4">
-              {[
-                "Meet you at the front door",
-                "Help you get your kids checked in",
-                "Save a seat for you",
-                "Give you a free gift",
-              ].map((item, i) => (
-                <li key={i} className="flex items-center gap-3 font-bold">
-                  <CheckCircle className="text-orange-200" /> {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="w-full md:w-96 bg-white rounded-2xl p-6 text-stone-900 shadow-2xl">
-            <form className="space-y-4">
-              <div>
-                <label className="block text-xs font-bold uppercase text-stone-500 mb-1">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  className="w-full bg-stone-100 rounded-lg px-4 py-3 border-none focus:ring-2 focus:ring-orange-500"
-                  placeholder="Jane Doe"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-bold uppercase text-stone-500 mb-1">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  className="w-full bg-stone-100 rounded-lg px-4 py-3 border-none focus:ring-2 focus:ring-orange-500"
-                  placeholder="jane@example.com"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-bold uppercase text-stone-500 mb-1">
-                  Planning to visit on?
-                </label>
-                <input
-                  type="date"
-                  className="w-full bg-stone-100 rounded-lg px-4 py-3 border-none focus:ring-2 focus:ring-orange-500"
-                />
-              </div>
-              <button className="w-full bg-stone-900 text-white font-bold py-4 rounded-lg hover:bg-orange-600 transition-colors">
-                Plan My Visit
-              </button>
-            </form>
           </div>
         </div>
       </section>

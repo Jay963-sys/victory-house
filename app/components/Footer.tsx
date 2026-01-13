@@ -51,7 +51,7 @@ export default function Footer() {
           <div className="mt-8 md:mt-0">
             <Link
               href="/visit"
-              className="inline-flex items-center justify-center bg-orange-600 text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest hover:bg-white hover:text-stone-950 transition-colors duration-300"
+              className="inline-flex items-center justify-center bg-green-600 text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest hover:bg-white hover:text-stone-950 transition-colors duration-300"
             >
               Plan Your Visit
             </Link>
@@ -74,14 +74,14 @@ export default function Footer() {
             >
               <Image
                 src="/rccg.svg"
-                alt="Victory Parish Logo"
+                alt="Victory House Logo"
                 width={40}
                 height={40}
                 className="object-contain"
                 priority
               />
               <span>
-                Victory<span className="text-green-600"> Parish</span>
+                Victory<span className="text-green-600"> House</span>
               </span>
             </Link>
 
@@ -95,7 +95,7 @@ export default function Footer() {
                 <a
                   key={i}
                   href="#"
-                  className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-stone-400 hover:bg-orange-600 hover:text-white hover:border-orange-600 transition-all duration-300"
+                  className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-stone-400 hover:bg-green-600 hover:text-white hover:border-green-600 transition-all duration-300"
                 >
                   <Icon size={18} />
                 </a>
@@ -109,18 +109,16 @@ export default function Footer() {
               Explore
             </h4>
             <ul className="space-y-4">
-              {["About Us", "Sermons", "Events", "Ministries", "Give"].map(
-                (item) => (
-                  <motion.li key={item} variants={itemVariants}>
-                    <Link
-                      href="#"
-                      className="text-stone-400 hover:text-orange-500 transition-colors"
-                    >
-                      {item}
-                    </Link>
-                  </motion.li>
-                )
-              )}
+              {["Sermons", "Events", "Media", "About", "Give"].map((item) => (
+                <motion.li key={item} variants={itemVariants}>
+                  <Link
+                    href={`/${item.toLowerCase().replace(" ", "")}`} // simple url generator
+                    className="text-stone-400 hover:text-green-500 transition-colors"
+                  >
+                    {item}
+                  </Link>
+                </motion.li>
+              ))}
             </ul>
           </div>
 
@@ -134,26 +132,26 @@ export default function Footer() {
                 variants={itemVariants}
                 className="flex items-start gap-3"
               >
-                <MapPin className="w-5 h-5 text-orange-600 shrink-0" />
+                <MapPin className="w-5 h-5 text-green-600 shrink-0" />
                 <span>
                   4352 W Parker Avenue,
                   <br />
-                  Chicago Illinois
+                  Chicago, Illinois
                 </span>
               </motion.li>
               <motion.li
                 variants={itemVariants}
                 className="flex items-center gap-3"
               >
-                <Phone className="w-5 h-5 text-orange-600 shrink-0" />
-                <span>+1 800 123 4567</span>
+                <Phone className="w-5 h-5 text-green-600 shrink-0" />
+                <span>+1 (773) 123-4567</span>
               </motion.li>
               <motion.li
                 variants={itemVariants}
                 className="flex items-center gap-3"
               >
-                <Mail className="w-5 h-5 text-orange-600 shrink-0" />
-                <span>hello@victoryparish.com</span>
+                <Mail className="w-5 h-5 text-green-600 shrink-0" />
+                <span>info@victoryhousechicago.org</span>
               </motion.li>
             </ul>
           </div>
@@ -165,18 +163,43 @@ export default function Footer() {
             </h4>
             <ul className="space-y-4">
               <motion.li variants={itemVariants}>
-                <span className="block text-white font-bold">Sundays</span>
-                <span className="text-stone-500">9:00 AM & 11:00 AM</span>
+                <span className="block text-white font-bold mb-1">Sundays</span>
+                <div className="text-stone-500 text-sm space-y-1">
+                  <div className="flex justify-between text-white">
+                    <span>Bethel</span> <span>9:00 AM</span>
+                  </div>
+                  <div className="flex justify-between text-white">
+                    <span>School of Word</span> <span>10:30 AM</span>
+                  </div>
+                  <div className="flex justify-between text-white">
+                    <span>Victory House</span> <span>11:00 AM</span>
+                  </div>
+                  <div className="flex justify-between text-white">
+                    <span>Miracle Service (Last Sun)</span>{" "}
+                    <span>11:00 AM</span>
+                  </div>
+                </div>
               </motion.li>
+
+              <div className="border-t border-white/10 my-2" />
+
               <motion.li variants={itemVariants}>
-                <span className="block text-white font-bold">Wednesdays</span>
-                <span className="text-stone-500">
-                  6:30 PM (Youth & Bible Study)
-                </span>
+                <div className="flex justify-between text-sm">
+                  <span className="text-white font-bold">
+                    Bible Study Tue (Zoom)
+                  </span>
+                  <span className="text-white-500">6:30 PM</span>
+                </div>
               </motion.li>
+
               <motion.li variants={itemVariants}>
-                <span className="block text-white font-bold">Online</span>
-                <span className="text-stone-500">Stream Live on Youtube</span>
+                <div className="flex justify-between text-sm">
+                  <span className="text-white font-bold">2nd Saturdays</span>
+                  <span className="text-white-500">7 AM - 5 PM</span>
+                </div>
+                <div className="text-[10px] uppercase tracking-wider text-white-600 mt-1">
+                  10 Hours Prayer
+                </div>
               </motion.li>
             </ul>
           </div>
@@ -185,32 +208,32 @@ export default function Footer() {
         {/* BOTTOM SECTION: COPYRIGHT & CREDIT */}
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-stone-600">
           <p>
-            &copy; {new Date().getFullYear()} Victory Parish. All rights
+            &copy; {new Date().getFullYear()} Victory House. All rights
             reserved.
           </p>
 
           <div className="flex items-center gap-6">
-            <Link
-              href="/privacy"
-              className="hover:text-stone-400 transition-colors"
-            >
+            <Link href="#" className="hover:text-stone-400 transition-colors">
               Privacy Policy
             </Link>
 
-            {/* --- YOUR SIGNATURE --- */}
-            <a
-              href="https://jay.dev" // Replace with your actual site
+            {/* JAY'S CREDIT */}
+            <Link
+              href="https://jay-dev-portfolio.vercel.app/"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1 hover:text-orange-500 transition-colors group"
+              className="
+    font-medium
+    underline
+    underline-offset-4
+    decoration-neutral-600
+    hover:decoration-white
+    hover:text-white
+    transition-colors
+  "
             >
-              <span className="opacity-50 group-hover:opacity-100">
-                Designed by
-              </span>
-              <span className="font-bold text-stone-400 group-hover:text-orange-500">
-                Jay
-              </span>
-            </a>
+              Designed by Jay
+            </Link>
           </div>
         </div>
       </div>
@@ -218,7 +241,7 @@ export default function Footer() {
       {/* GIANT BACKGROUND TEXT */}
       <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none select-none pointer-events-none">
         <h1 className="text-[18vw] font-black text-stone-900/50 text-center tracking-tighter -mb-[4vw] mix-blend-overlay">
-          VICTORY PARISH
+          VICTORY HOUSE
         </h1>
       </div>
     </footer>

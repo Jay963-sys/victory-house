@@ -21,7 +21,7 @@ export default async function MediaGallery() {
   const data = await client.fetch(
     mixedMediaQuery,
     {},
-    { next: { revalidate: 60 } }
+    { next: { revalidate: 3600 } }
   );
   const items: MediaItem[] = [];
 

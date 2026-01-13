@@ -53,16 +53,22 @@ export default function CurrentSeries({ data }: { data: SeriesData }) {
 
     playTrack({
       title: sermon.title,
-      preacher: sermon.preacher || "RCCG Victory Chapel",
+      preacher: sermon.preacher || "RCCG Victory House",
       src: sermon.fileUrl,
       image: urlFor(data.coverImage).width(200).url(),
     });
   };
 
+  const dateFormatter = new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+
   return (
     <section className="relative py-32 bg-stone-950 overflow-hidden text-white">
-      {/* Background Ambience */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange-600/20 blur-[120px] rounded-full pointer-events-none" />
+      {/* Background Ambience - Switched to Green */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-green-600/20 blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-900/10 blur-[120px] rounded-full pointer-events-none" />
 
       {/* Noise Texture */}
@@ -109,6 +115,7 @@ export default function CurrentSeries({ data }: { data: SeriesData }) {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
               </div>
 
+              {/* Tag stays Red as it indicates "Live/Current" status, or we can make it Green if you prefer */}
               <div
                 className="absolute top-6 left-6 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full tracking-widest uppercase shadow-lg"
                 style={{ transform: "translateZ(60px)" }}
@@ -135,15 +142,15 @@ export default function CurrentSeries({ data }: { data: SeriesData }) {
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <div className="flex items-center gap-4 justify-center lg:justify-start mb-6 text-orange-500">
-                <span className="h-[1px] w-12 bg-orange-500/50"></span>
+              <div className="flex items-center gap-4 justify-center lg:justify-start mb-6 text-green-500">
+                <span className="h-[1px] w-12 bg-green-500/50"></span>
                 <span className="font-mono text-sm tracking-widest uppercase">
                   {data.subtitle}
                 </span>
               </div>
 
               <h2 className="text-5xl md:text-7xl font-serif font-bold mb-6 leading-[0.9]">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-orange-100 to-orange-500">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-green-100 to-green-500">
                   {data.title}
                 </span>
               </h2>
@@ -164,7 +171,7 @@ export default function CurrentSeries({ data }: { data: SeriesData }) {
                     <Play size={18} className="fill-stone-900" /> Listen to
                     Latest
                   </span>
-                  <div className="absolute inset-0 bg-orange-500 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
+                  <div className="absolute inset-0 bg-green-500 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
                 </button>
 
                 <button className="px-8 py-4 rounded-full font-bold text-white border border-white/20 hover:bg-white/10 transition-colors flex items-center gap-2">
@@ -188,7 +195,7 @@ export default function CurrentSeries({ data }: { data: SeriesData }) {
                         className="group flex items-center justify-between py-3 px-4 rounded-lg hover:bg-white/5 cursor-pointer transition-colors"
                       >
                         <div className="flex items-center gap-4">
-                          <div className="w-8 h-8 rounded-full bg-stone-800 flex items-center justify-center text-stone-500 group-hover:text-orange-500 transition-colors">
+                          <div className="w-8 h-8 rounded-full bg-stone-800 flex items-center justify-center text-stone-500 group-hover:text-green-500 transition-colors">
                             <Play size={12} className="fill-current" />
                           </div>
                           <div>
@@ -196,13 +203,13 @@ export default function CurrentSeries({ data }: { data: SeriesData }) {
                               {sermon.title}
                             </h4>
                             <p className="text-xs text-stone-500">
-                              {new Date(sermon.date).toLocaleDateString()}
+                              {dateFormatter.format(new Date(sermon.date))}
                             </p>
                           </div>
                         </div>
                         <ArrowRight
                           size={16}
-                          className="text-stone-600 group-hover:text-orange-500 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0"
+                          className="text-stone-600 group-hover:text-green-500 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0"
                         />
                       </div>
                     ))
