@@ -8,73 +8,37 @@ import Testimonies from "./components/Testimonies";
 import { client } from "@/sanity/lib/client";
 import { groq } from "next-sanity";
 
-const eventsQuery = groq`
-  *[_type == "event"] | order(date asc) [0...4] {
-    _id,
-    title,
-    category,
-    date,
-    location,
-    image
-  }
-`;
-
-const seriesQuery = groq`
-  *[_type == "series" && isCurrent == true][0] {
-    title,
-    subtitle,
-    description,
-    coverImage,
-    // This part goes and finds sermons that reference THIS series (^._id)
-    "recentSermons": *[_type == "sermon" && references(^._id)] | order(date desc)[0...2] {
-      title,
-      "fileUrl": audioFile.asset->url,
-      date,
-      preacher,
-      "slug": slug.current
+const homeQuery = groq`
+  {
+    "events": *[_type == "event"] | order(date asc) [0...4] {
+      _id, title, category, date, location, image
+    },
+    "series": *[_type == "series" && isCurrent == true][0] {
+      title, subtitle, description, coverImage,
+      "recentSermons": *[_type == "sermon" && references(^._id)] | order(date desc)[0...2] {
+        title, "fileUrl": audioFile.asset->url, date, preacher, "slug": slug.current
+      }
+    },
+    // Added a limit [0...6] so we don't fetch too many if the list grows
+    "testimonies": *[_type == "testimony"] | order(_createdAt desc)[0...6] {
+      _id, name, role, quote, photo
     }
   }
 `;
 
-const TestimoniesQuery = groq`
-  *[_type == "testimony"] | order(_createdAt desc) {
-    _id,
-    name,
-    role,
-    quote,
-    photo
-  }
-`;
-
-async function getEvents() {
-  return await client.fetch(eventsQuery, {}, { next: { revalidate: 3600 } });
-}
-
-async function getCurrentSeries() {
-  return await client.fetch(seriesQuery, {}, { next: { revalidate: 3600 } });
-}
-
-async function getTestimonies() {
-  return await client.fetch(
-    TestimoniesQuery,
-    {},
-    { next: { revalidate: 3600 } }
-  );
-}
+export const revalidate = 60;
 
 export default async function Home() {
-  const events = await getEvents();
-  const currentSeries = await getCurrentSeries();
-  const testimonies = await getTestimonies();
+  const data = await client.fetch(homeQuery);
 
   return (
     <main className="min-h-screen">
       <Hero />
       <Marquee />
+      <CurrentSeries data={data.series} />
+      <Testimonies items={data.testimonies} />
       <BentoGrid />
-      <EventsSection events={events} />
-      <CurrentSeries data={currentSeries} />
-      <Testimonies items={testimonies} />
+      <EventsSection events={data.events} />
       <MediaGallery />
     </main>
   );
