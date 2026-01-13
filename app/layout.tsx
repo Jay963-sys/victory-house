@@ -12,6 +12,7 @@ const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-playfair",
 });
+const siteUrl = "https://rccgvictorychapel.org";
 
 export const metadata: Metadata = {
   title: {
@@ -25,11 +26,11 @@ export const metadata: Metadata = {
     title: "RCCG Victory Chapel",
     description:
       "A Christ-centered church community committed to faith, worship, and growth.",
-    url: "https://rccgvictorychapel.org",
+    url: siteUrl,
     siteName: "RCCG Victory Chapel",
     images: [
       {
-        url: "/rccg.png",
+        url: `${siteUrl}/rccg.png`,
         width: 1200,
         height: 630,
         alt: "RCCG Victory Chapel",
@@ -44,7 +45,7 @@ export const metadata: Metadata = {
     title: "RCCG Victory Chapel",
     description:
       "A Christ-centered church community committed to worship and spiritual growth.",
-    images: ["/rccg.png"],
+    images: [`${siteUrl}/rccg.png`],
   },
 
   icons: {
