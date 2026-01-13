@@ -12,12 +12,16 @@ import { Clock } from "lucide-react";
 
 const HERO_IMAGES = [
   "/images/10.jpg",
+  "/images/37.jpg",
   "/images/16.jpg",
+  "/images/38.jpg",
   "/images/5.jpg",
+  "/images/36.jpg",
   "/images/3.jpg",
+  "/images/35.jpg",
   "/images/13.jpg",
   "/images/9.jpg",
-  "/images/21.jpg",
+  "/images/31.jpg",
   "/images/4.jpg",
 ];
 

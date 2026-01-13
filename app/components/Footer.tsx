@@ -151,7 +151,7 @@ export default function Footer() {
                 className="flex items-center gap-3"
               >
                 <Mail className="w-5 h-5 text-green-600 shrink-0" />
-                <span>info@victoryhousechicago.org</span>
+                <span className="break-all">info@victoryhousechicago.org</span>
               </motion.li>
             </ul>
           </div>
@@ -215,24 +215,6 @@ export default function Footer() {
           <div className="flex items-center gap-6">
             <Link href="#" className="hover:text-stone-400 transition-colors">
               Privacy Policy
-            </Link>
-
-            {/* JAY'S CREDIT */}
-            <Link
-              href="https://jay-dev-portfolio.vercel.app/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="
-    font-medium
-    underline
-    underline-offset-4
-    decoration-neutral-600
-    hover:decoration-white
-    hover:text-white
-    transition-colors
-  "
-            >
-              Designed by Jay
             </Link>
           </div>
         </div>

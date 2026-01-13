@@ -8,7 +8,7 @@ export default function AboutPage() {
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden bg-stone-900">
         <div className="absolute inset-0 opacity-50">
           <Image
-            src="/images/21.jpg"
+            src="/images/37.jpg"
             fill
             className="object-cover"
             alt="Congregation"
@@ -49,7 +49,7 @@ export default function AboutPage() {
             <div className="group">
               <div className="aspect-3/4 bg-stone-200 rounded-xl overflow-hidden mb-6 relative">
                 <Image
-                  src="/images/8.jpg"
+                  src="/images/34.jpg"
                   width={600}
                   height={800}
                   alt="Pastor"
@@ -68,14 +68,14 @@ export default function AboutPage() {
             <div className="group">
               <div className="aspect-3/4 bg-stone-200 rounded-xl overflow-hidden mb-6 relative">
                 <Image
-                  src="/images/15.jpg"
+                  src="/images/19.jpg"
                   width={600}
                   height={800}
                   alt="Pastor"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
-              <h3 className="text-xl font-bold text-stone-900">Pastor Dami</h3>
+              <h3 className="text-xl font-bold text-stone-900">Pastor Tope</h3>
               <p className="text-green-600 font-mono text-xs uppercase tracking-widest">
                 Asst Pastor
               </p>
@@ -85,7 +85,7 @@ export default function AboutPage() {
             <div className="group">
               <div className="aspect-3/4 bg-stone-200 rounded-xl overflow-hidden mb-6 relative">
                 <Image
-                  src="/images/19.jpg"
+                  src="/images/32.jpg"
                   width={600}
                   height={800}
                   alt="Pastor"
@@ -93,10 +93,10 @@ export default function AboutPage() {
                 />
               </div>
               <h3 className="text-xl font-bold text-stone-900">
-                Deaconess Bukola
+                Pastor Toyosi
               </h3>
               <p className="text-green-600 font-mono text-xs uppercase tracking-widest">
-                Deaconess{" "}
+                Asst Pastor
               </p>
             </div>
           </div>
