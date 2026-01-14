@@ -44,36 +44,59 @@ export default function BentoGrid() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 h-auto md:h-[500px]">
-        {/* --- BOX 1: Our DNA (Slideshow) --- */}
         <Box
-          className="md:col-span-2 bg-stone-900 text-white p-8 flex flex-col justify-between min-h-[400px]"
+          className="md:col-span-2 bg-stone-900 text-white p-8 flex flex-col justify-between min-h-[400px] relative overflow-hidden"
           delay={0.1}
         >
-          {/* Animated Background Image */}
-          <div className="absolute inset-0 z-0">
-            <AnimatePresence mode="popLayout">
-              <motion.div
-                key={currentDnaImage}
-                initial={{ opacity: 0, scale: 1.1 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 1.5, ease: "easeInOut" }}
-                className="absolute inset-0"
-              >
-                <Image
-                  src={DNA_IMAGES[currentDnaImage]}
-                  alt="Community"
-                  fill
-                  className="object-cover opacity-60"
-                />
-              </motion.div>
-            </AnimatePresence>
-            {/* Gradient for text readability */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10" />
+          {/* Background Slideshow */}
+          <div className="absolute inset-0 z-0 overflow-hidden">
+            {DNA_IMAGES.map((src, index) => {
+              const isActive = index === currentDnaImage;
+              return (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{
+                    opacity: isActive ? 1 : 0,
+                    y: isActive ? 0 : 20,
+                  }}
+                  transition={{
+                    opacity: { duration: 2, ease: [0.4, 0, 0.2, 1] },
+                    y: { duration: 2, ease: [0.4, 0, 0.2, 1] },
+                  }}
+                  className="absolute inset-0"
+                >
+                  <motion.div
+                    className="absolute inset-0"
+                    animate={{
+                      y: [-10, 10], // subtle vertical parallax
+                    }}
+                    transition={{
+                      duration: 8,
+                      repeat: Infinity,
+                      repeatType: "reverse",
+                      ease: "easeInOut",
+                    }}
+                  >
+                    <Image
+                      src={src}
+                      alt="Community"
+                      fill
+                      className="object-cover opacity-70"
+                    />
+                  </motion.div>
+                </motion.div>
+              );
+            })}
+
+            {/* Gradient overlay for text readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent z-10" />
           </div>
 
+          {/* Foreground Icon */}
           <Heart className="w-10 h-10 text-green-500 relative z-20" />
 
+          {/* Text Content */}
           <div className="relative z-20">
             <h3 className="text-3xl font-bold mb-4">Our DNA</h3>
             <p className="text-stone-300 text-lg leading-relaxed max-w-lg">
