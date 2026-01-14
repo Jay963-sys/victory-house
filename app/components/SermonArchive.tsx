@@ -36,7 +36,7 @@ function getYouTubeId(url: string) {
 
 export default function SermonArchive({ sermons }: { sermons: Sermon[] }) {
   const [searchQuery, setSearchQuery] = useState("");
-  const { playTrack } = useAudio();
+  const { playTrack, pause } = useAudio();
 
   // State for the Video Modal
   const [selectedVideoSermon, setSelectedVideoSermon] = useState<Sermon | null>(
@@ -169,7 +169,11 @@ export default function SermonArchive({ sermons }: { sermons: Sermon[] }) {
                     {/* Watch Button */}
                     {sermon.youtubeUrl ? (
                       <button
-                        onClick={() => setSelectedVideoSermon(sermon)}
+                        onClick={() => {
+                          // 2. PAUSE AUDIO HERE
+                          pause();
+                          setSelectedVideoSermon(sermon);
+                        }}
                         className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-stone-900 text-white font-bold text-xs uppercase tracking-wider hover:bg-red-600 transition-colors"
                       >
                         <Video size={16} />

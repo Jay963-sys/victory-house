@@ -315,7 +315,7 @@ export default function Ministries() {
             viewport={{ once: true }}
             className="text-5xl md:text-7xl font-serif font-bold text-stone-900 mb-6"
           >
-            Our Ministries.
+            Our Programs & Ministries.
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}

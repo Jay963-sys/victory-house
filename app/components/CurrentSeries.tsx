@@ -39,7 +39,7 @@ function getYouTubeId(url: string) {
 
 export default function CurrentSeries({ data }: { data: SeriesData }) {
   const ref = useRef<HTMLDivElement>(null);
-  const { playTrack } = useAudio();
+  const { playTrack, pause } = useAudio();
 
   // State for switching between Audio (Cover Art) and Video (YouTube)
   const [viewMode, setViewMode] = useState<"cover" | "video">("cover");
@@ -85,6 +85,7 @@ export default function CurrentSeries({ data }: { data: SeriesData }) {
       alert("No video available for this sermon.");
       return;
     }
+    pause();
     setActiveVideoSermon(sermon);
     setViewMode("video");
   };
