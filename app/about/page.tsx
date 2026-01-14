@@ -5,6 +5,7 @@ import Image from "next/image";
 export default function AboutPage() {
   return (
     <main className="min-h-screen bg-stone-50">
+      {/* --- HERO --- */}
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden bg-stone-900">
         <div className="absolute inset-0 opacity-50">
           <Image
@@ -14,7 +15,7 @@ export default function AboutPage() {
             alt="Congregation"
           />
         </div>
-        <div className="absolute inset-0 bg-linear-to-t from-stone-900 via-stone-900/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-stone-900/40 to-transparent" />
 
         <div className="relative z-10 text-center max-w-4xl px-6">
           <h1 className="text-5xl md:text-8xl font-serif font-bold text-white mb-8">
@@ -26,10 +27,14 @@ export default function AboutPage() {
 
       {/* --- MISSION STATEMENT --- */}
       <section className="py-24 px-6 max-w-4xl mx-auto text-center">
-        <p className="text-2xl md:text-4xl font-serif leading-tight text-stone-800">
-          "We exist to be a sanctuary for the broken and a training ground for
-          the faithful. We believe church shouldn't be boring, and faith
-          shouldn't be fake."
+        <h2 className="text-green-600 font-mono text-sm font-bold uppercase tracking-widest mb-6">
+          Who We Are
+        </h2>
+        <p className="text-xl md:text-3xl font-serif leading-relaxed text-stone-800">
+          "Victory House is a mission of the Redeemed Christian Church of God.
+          At Victory House, we believe that every individual is endowed with
+          God-given potential, and our mission is to help you discover, develop,
+          and walk in that purpose for meaningful impact in the world."
         </p>
         <div className="mt-12 w-24 h-1 bg-green-500 mx-auto" />
       </section>
@@ -47,7 +52,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Leader 1 */}
             <div className="group">
-              <div className="aspect-3/4 bg-stone-200 rounded-xl overflow-hidden mb-6 relative">
+              <div className="aspect-[3/4] bg-stone-200 rounded-xl overflow-hidden mb-6 relative">
                 <Image
                   src="/images/34.jpg"
                   width={600}
@@ -57,7 +62,7 @@ export default function AboutPage() {
                 />
               </div>
               <h3 className="text-xl font-bold text-stone-900">
-                Pastor Emmanuel
+                Pastor Emmanuel Adewale
               </h3>
               <p className="text-green-600 font-mono text-xs uppercase tracking-widest">
                 Lead Pastor
@@ -66,7 +71,7 @@ export default function AboutPage() {
 
             {/* Leader 2 */}
             <div className="group">
-              <div className="aspect-3/4 bg-stone-200 rounded-xl overflow-hidden mb-6 relative">
+              <div className="aspect-[3/4] bg-stone-200 rounded-xl overflow-hidden mb-6 relative">
                 <Image
                   src="/images/19.jpg"
                   width={600}
@@ -75,7 +80,9 @@ export default function AboutPage() {
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
-              <h3 className="text-xl font-bold text-stone-900">Pastor Tope</h3>
+              <h3 className="text-xl font-bold text-stone-900">
+                Pastor Tope Adewale
+              </h3>
               <p className="text-green-600 font-mono text-xs uppercase tracking-widest">
                 Asst Pastor
               </p>
@@ -83,7 +90,7 @@ export default function AboutPage() {
 
             {/* Leader 3 */}
             <div className="group">
-              <div className="aspect-3/4 bg-stone-200 rounded-xl overflow-hidden mb-6 relative">
+              <div className="aspect-[3/4] bg-stone-200 rounded-xl overflow-hidden mb-6 relative">
                 <Image
                   src="/images/32.jpg"
                   width={600}
@@ -93,7 +100,7 @@ export default function AboutPage() {
                 />
               </div>
               <h3 className="text-xl font-bold text-stone-900">
-                Pastor Toyosi
+                Pastor Toyosi Erogbogbo
               </h3>
               <p className="text-green-600 font-mono text-xs uppercase tracking-widest">
                 Asst Pastor
@@ -103,43 +110,42 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* --- VALUES / BELIEFS --- */}
       <section className="py-24 px-6 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
           <div>
             <h2 className="text-4xl font-serif font-bold text-stone-900 mb-6">
-              What We Believe.
+              Our Values.
             </h2>
             <p className="text-stone-500 text-lg leading-relaxed">
-              Our doctrine is rooted in the Bible. We believe in the Trinity,
-              the salvation of man through grace, and the active power of the
-              Holy Spirit today.
+              We are a community rooted in the integrity of God’s Word, driven
+              by the Spirit, and dedicated to the growth of every believer.
             </p>
           </div>
 
           <div className="space-y-8">
             {[
               {
-                title: "The Bible",
-                desc: "The inspired, infallible word of God.",
+                title: "Family & Character",
+                desc: "We celebrate families, value spiritual growth, and encourage the development of Christ-like character.",
               },
               {
-                title: "Salvation",
-                desc: "By grace alone, through faith alone, in Christ alone.",
+                title: "Word & Spirit",
+                desc: "We honor the integrity of God’s Word and embrace the gifts of the Spirit in our services.",
               },
               {
-                title: "Community",
-                desc: "We are better together. Faith is not a solo sport.",
+                title: "Purpose & Growth",
+                desc: "Victory House is a place where you discover purpose and grow in God.",
               },
             ].map((item, i) => (
               <div
                 key={i}
-                // CHANGED: Orange borders to Green
                 className="border-l-2 border-green-200 pl-6 hover:border-green-500 transition-colors"
               >
                 <h4 className="font-bold text-xl text-stone-900 mb-2">
                   {item.title}
                 </h4>
-                <p className="text-stone-500">{item.desc}</p>
+                <p className="text-stone-500 text-lg">{item.desc}</p>
               </div>
             ))}
           </div>

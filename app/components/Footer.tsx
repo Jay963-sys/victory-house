@@ -13,7 +13,6 @@ import {
 import Image from "next/image";
 
 export default function Footer() {
-  // Animation variants for staggering the list items
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -68,37 +67,61 @@ export default function Footer() {
         >
           {/* Column 1: Brand (Span 4) */}
           <div className="md:col-span-4">
-            <Link
-              href="/"
-              className="flex items-center gap-3 font-serif text-3xl font-bold tracking-tight mb-6"
-            >
-              <Image
-                src="/rccg.svg"
-                alt="Victory House Logo"
-                width={40}
-                height={40}
-                className="object-contain"
-                priority
-              />
-              <span>
-                Victory<span className="text-green-600"> House</span>
-              </span>
+            {/* --- UPDATED LOGO LOCKUP TO MATCH NAVBAR --- */}
+            <Link href="/" className="flex items-center gap-4 mb-8 group w-fit">
+              {/* Logo Image Container */}
+              <div className="relative w-12 h-12 bg-white rounded-full p-0.5 shadow-sm shrink-0 transition-transform group-hover:scale-105">
+                <Image
+                  src="/rccg.png" // Using the PNG to match Navbar/Hero
+                  alt="Victory House Logo"
+                  fill
+                  className="object-contain p-0.5"
+                />
+              </div>
+
+              {/* Stacked Text */}
+              <div className="flex flex-col items-start leading-[0.85]">
+                {/* Row 1: VICTORY */}
+                <span className="font-sans font-bold text-lg uppercase tracking-tight text-green-500 group-hover:text-green-500 transition-colors">
+                  Victory House
+                </span>
+
+                {/* Row 3: CHICAGO (Red Box) */}
+                <span className="bg-[#DA291C] text-white text-[10px] font-bold uppercase tracking-widest px-1.5 py-0.5 mt-1 shadow-sm rounded-sm">
+                  Chicago
+                </span>
+              </div>
             </Link>
+            {/* ------------------------------------------- */}
 
             <p className="text-stone-500 text-sm leading-relaxed max-w-sm mb-8">
               An unorthodox community of believers dedicated to faith, hope, and
               love. We are building a sanctuary for the broken and a training
               ground for the faithful.
             </p>
+            {/* Social Media Links */}
             <div className="flex gap-4">
-              {[Instagram, Facebook, Youtube].map((Icon, i) => (
-                <a
+              {[
+                {
+                  Icon: Instagram,
+                  url: "https://www.instagram.com/victoryalltheway",
+                },
+                {
+                  Icon: Youtube,
+                  url: "https://www.youtube.com/@RCCGVictoryHouseTV",
+                },
+                { Icon: Mail, url: "mailto:info@victoryalltheway.org" },
+                { Icon: Phone, url: "tel:+13128332383" },
+              ].map(({ Icon, url }, i) => (
+                <Link
                   key={i}
-                  href="#"
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-stone-400 hover:bg-green-600 hover:text-white hover:border-green-600 transition-all duration-300"
                 >
                   <Icon size={18} />
-                </a>
+                </Link>
               ))}
             </div>
           </div>
@@ -134,9 +157,9 @@ export default function Footer() {
               >
                 <MapPin className="w-5 h-5 text-green-600 shrink-0" />
                 <span>
-                  4352 W Parker Avenue,
+                  4352 W.Parker Avenue,
                   <br />
-                  Chicago, Illinois
+                  Chicago, IL 60639
                 </span>
               </motion.li>
               <motion.li
@@ -144,14 +167,14 @@ export default function Footer() {
                 className="flex items-center gap-3"
               >
                 <Phone className="w-5 h-5 text-green-600 shrink-0" />
-                <span>+1 (773) 123-4567</span>
+                <span>+1 (312) 833-2383</span>
               </motion.li>
               <motion.li
                 variants={itemVariants}
                 className="flex items-center gap-3"
               >
                 <Mail className="w-5 h-5 text-green-600 shrink-0" />
-                <span className="break-all">info@victoryhousechicago.org</span>
+                <span className="break-all">info@victoryalltheway.org</span>
               </motion.li>
             </ul>
           </div>
@@ -163,18 +186,20 @@ export default function Footer() {
             </h4>
             <ul className="space-y-4">
               <motion.li variants={itemVariants}>
-                <span className="block text-white font-bold mb-1">Sundays</span>
+                <span className="block text-stone-400 font-bold mb-1">
+                  Sundays
+                </span>
                 <div className="text-stone-500 text-sm space-y-1">
-                  <div className="flex justify-between text-white">
+                  <div className="flex justify-between text-stone-400">
                     <span>Bethel</span> <span>9:00 AM</span>
                   </div>
-                  <div className="flex justify-between text-white">
+                  <div className="flex justify-between text-stone-400">
                     <span>School of Word</span> <span>10:30 AM</span>
                   </div>
-                  <div className="flex justify-between text-white">
+                  <div className="flex justify-between text-stone-400">
                     <span>Victory House</span> <span>11:00 AM</span>
                   </div>
-                  <div className="flex justify-between text-white">
+                  <div className="flex justify-between text-stone-400">
                     <span>Miracle Service (Last Sun)</span>{" "}
                     <span>11:00 AM</span>
                   </div>
@@ -185,19 +210,21 @@ export default function Footer() {
 
               <motion.li variants={itemVariants}>
                 <div className="flex justify-between text-sm">
-                  <span className="text-white font-bold">
+                  <span className="text-stone-400 font-bold">
                     Bible Study Tue (Zoom)
                   </span>
-                  <span className="text-white-500">6:30 PM</span>
+                  <span className="text-stone-400">6:30 PM</span>
                 </div>
               </motion.li>
 
               <motion.li variants={itemVariants}>
                 <div className="flex justify-between text-sm">
-                  <span className="text-white font-bold">2nd Saturdays</span>
-                  <span className="text-white-500">7 AM - 5 PM</span>
+                  <span className="text-stone-400 font-bold">
+                    2nd Saturdays
+                  </span>
+                  <span className="text-stone-400">7 AM - 5 PM</span>
                 </div>
-                <div className="text-[10px] uppercase tracking-wider text-white-600 mt-1">
+                <div className="text-[10px] uppercase tracking-wider text-stone-400 mt-1">
                   10 Hours Prayer
                 </div>
               </motion.li>

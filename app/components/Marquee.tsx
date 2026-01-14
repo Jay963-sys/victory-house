@@ -3,23 +3,23 @@ import { motion } from "framer-motion";
 import type { Variants } from "framer-motion";
 
 const SERVICE_TIMES = [
-  "Bethel Service (Sundays)  9-10 AM",
+  "Bethel Service (Sundays)  9:00 AM",
   "School of the Word (Sundays) 10:30 AM",
-  "Victory House (Sundays) 11 AM - 1 PM",
+  "Victory House (Sundays) 11:00 AM ",
   "Bible Study (Zoom) Tuesdays 6:30 PM",
   "10hrs Prayer (2nd Sat) 7 AM - 5 PM",
-  "Miracle Sunday (Last Sun) 11 AM",
+  "Miracle Sunday (Last Sun) 11:00 AM",
 ];
 
 export default function Marquee() {
   const marqueeVariants: Variants = {
     animate: {
-      x: [0, -1500], // Increased travel distance for more text
+      x: [0, -1500],
       transition: {
         x: {
           repeat: Infinity,
           repeatType: "loop",
-          duration: 35, // Slower duration for readability
+          duration: 35,
           ease: "linear",
         },
       },
@@ -27,7 +27,6 @@ export default function Marquee() {
   };
 
   return (
-    // Changed bg-orange-600 to bg-green-600
     <div className="relative w-full overflow-hidden bg-green-600 py-4 border-y border-stone-900">
       <div className="flex whitespace-nowrap">
         <motion.div

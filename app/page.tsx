@@ -3,7 +3,6 @@ import BentoGrid from "./components/BentoGrid";
 import Marquee from "./components/Marquee";
 import EventsSection from "./components/EventsSection";
 import CurrentSeries from "./components/CurrentSeries";
-import MediaGallery from "./components/MediaGallery";
 import Testimonies from "./components/Testimonies";
 import { client } from "@/sanity/lib/client";
 import { groq } from "next-sanity";
@@ -15,8 +14,8 @@ const homeQuery = groq`
     },
     "series": *[_type == "series" && isCurrent == true][0] {
       title, subtitle, description, coverImage,
-      "recentSermons": *[_type == "sermon" && references(^._id)] | order(date desc)[0...2] {
-        title, "fileUrl": audioFile.asset->url, date, preacher, "slug": slug.current
+      "recentSermons": *[_type == "sermon" && references(^._id)] | order(date desc)[0...3] {
+        title,youtubeUrl, "fileUrl": audioFile.asset->url, date, preacher, "slug": slug.current
       }
     },
     // Added a limit [0...6] so we don't fetch too many if the list grows
@@ -35,11 +34,10 @@ export default async function Home() {
     <main className="min-h-screen">
       <Hero />
       <Marquee />
-      <CurrentSeries data={data.series} />
-      <Testimonies items={data.testimonies} />
       <BentoGrid />
+      <CurrentSeries data={data.series} />
       <EventsSection events={data.events} />
-      <MediaGallery />
+      <Testimonies items={data.testimonies} />
     </main>
   );
 }

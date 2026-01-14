@@ -10,8 +10,9 @@ const navItems = [
   { label: "Home", href: "/" },
   { label: "Sermons", href: "/sermons" },
   { label: "Events", href: "/events" },
-  { label: "Media", href: "/media" },
+  { label: "Ministries", href: "/ministries" },
   { label: "About", href: "/about" },
+  { label: "Connect", href: "/connect" },
   { label: "Give", href: "/give" },
 ];
 
@@ -22,7 +23,7 @@ export default function Navbar() {
   const lastScroll = useRef(false);
 
   /* --------------------------------------------
-   * Scroll detection (NO re-render spam)
+   * Scroll detection
    * ------------------------------------------ */
   useEffect(() => {
     const onScroll = () => {
@@ -38,7 +39,7 @@ export default function Navbar() {
   }, []);
 
   /* --------------------------------------------
-   * Body scroll lock (no layout shift)
+   * Body scroll lock
    * ------------------------------------------ */
   useEffect(() => {
     if (!open) {
@@ -74,29 +75,51 @@ export default function Navbar() {
             open
               ? "bg-white border-b border-stone-200 py-3 shadow-md"
               : scrolled
-                ? "bg-white/95 supports-backdrop-filter:backdrop-blur-md border-b border-stone-200 py-3 shadow-sm"
-                : "bg-linear-to-b from-black/60 to-transparent border-transparent py-6"
+                ? "bg-white/95 backdrop-blur-md border-b border-stone-200 py-3 shadow-sm"
+                : "bg-gradient-to-b from-black/60 to-transparent border-transparent py-4 md:py-6"
           }
         `}
       >
         <div className="mx-auto max-w-7xl px-6 flex items-center justify-between">
-          {/* LOGO */}
-          <Link href="/" className="relative z-50 flex items-center gap-3">
-            <Image
-              src="/rccg.svg"
-              alt="Victory Parish Logo"
-              width={36}
-              height={36}
-              priority
-            />
-
-            <span
-              className={`font-serif text-2xl font-bold transition-colors ${
-                scrolled || open ? "text-stone-900" : "text-white"
-              }`}
+          {/* LOGO LOCKUP */}
+          <Link
+            href="/"
+            className="relative z-50 flex items-center gap-3 group"
+          >
+            {/* Logo Container */}
+            <div
+              className={`relative w-10 h-10 md:w-12 md:h-12 bg-white rounded-full p-0.5 shadow-sm transition-transform group-hover:scale-105 ${scrolled || open ? "shadow-md" : ""}`}
             >
-              Victory <span className="text-green-500">House</span>
-            </span>
+              <Image
+                src="/rccg.png"
+                alt="Victory Parish Logo"
+                fill
+                className="object-contain p-0.5"
+              />
+            </div>
+
+            {/* Text Stack */}
+            <div className="flex flex-col leading-none">
+              <span
+                className={`font-sans font-bold text-lg md:text-xl uppercase tracking-tight transition-colors ${
+                  scrolled || open ? "text-green-700" : "text-green-500"
+                }`}
+              >
+                Victory House
+              </span>
+              <span
+                className={`
+                text-[10px] md:text-xs font-bold uppercase tracking-widest px-1.5 py-0.5 w-fit -mt-0.5 shadow-sm
+                ${
+                  scrolled || open
+                    ? "bg-[#DA291C] text-white"
+                    : "bg-[#DA291C] text-white"
+                }
+              `}
+              >
+                Chicago
+              </span>
+            </div>
           </Link>
 
           {/* DESKTOP NAV */}
@@ -113,7 +136,7 @@ export default function Navbar() {
                   className="relative group flex flex-col items-center"
                 >
                   <span
-                    className={`text-sm font-bold uppercase tracking-widest transition-colors ${baseColor} ${
+                    className={`text-xs font-bold uppercase tracking-widest transition-colors ${baseColor} ${
                       isActive ? "text-green-500" : ""
                     } group-hover:${hoverColor}`}
                   >
@@ -124,7 +147,7 @@ export default function Navbar() {
                     <motion.div
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
-                      className="absolute -bottom-2 w-1.5 h-1.5 bg-green-500 rounded-full"
+                      className="absolute -bottom-2 w-1 h-1 bg-green-500 rounded-full"
                     />
                   )}
                 </Link>
@@ -136,7 +159,7 @@ export default function Navbar() {
           <div className="flex items-center gap-6 z-50">
             <Link
               href="/visit"
-              className={`hidden md:inline-flex px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all
+              className={`hidden md:inline-flex px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all shadow-sm hover:shadow-md
                 ${
                   scrolled || open
                     ? "bg-stone-900 text-white hover:bg-green-600"
@@ -153,19 +176,19 @@ export default function Navbar() {
             >
               <motion.span
                 animate={open ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
-                className={`w-8 h-0.5 ${
+                className={`w-7 h-0.5 rounded-full ${
                   scrolled || open ? "bg-stone-900" : "bg-white"
                 }`}
               />
               <motion.span
                 animate={open ? { opacity: 0 } : { opacity: 1 }}
-                className={`w-8 h-0.5 ${
+                className={`w-7 h-0.5 rounded-full ${
                   scrolled || open ? "bg-stone-900" : "bg-white"
                 }`}
               />
               <motion.span
                 animate={open ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
-                className={`w-8 h-0.5 ${
+                className={`w-7 h-0.5 rounded-full ${
                   scrolled || open ? "bg-stone-900" : "bg-white"
                 }`}
               />
@@ -182,9 +205,13 @@ export default function Navbar() {
             animate={{ y: 0 }}
             exit={{ y: "-100%" }}
             transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
-            className="fixed inset-0 bg-stone-950 z-40 flex items-center justify-center px-6"
+            // FIX APPLIED HERE:
+            // 1. overflow-y-auto (allows scrolling on small screens)
+            // 2. justify-start (starts content from top instead of center)
+            // 3. pt-32 (adds padding so links aren't hidden behind the logo)
+            className="fixed inset-0 bg-stone-950 z-40 overflow-y-auto flex flex-col items-center justify-start px-6 pt-32 pb-12"
           >
-            <nav className="flex flex-col gap-6 w-full max-w-md">
+            <nav className="flex flex-col gap-6 w-full max-w-md text-center">
               {navItems.map((item, index) => (
                 <motion.div
                   key={item.href}
@@ -195,7 +222,7 @@ export default function Navbar() {
                   <Link
                     href={item.href}
                     onClick={() => setOpen(false)}
-                    className="flex items-baseline gap-4 border-b border-stone-800 pb-4"
+                    className="flex items-baseline justify-center gap-4 border-b border-stone-800 pb-4"
                   >
                     <span className="text-sm font-mono text-green-500">
                       0{index + 1}
@@ -210,7 +237,7 @@ export default function Navbar() {
               <Link
                 href="/visit"
                 onClick={() => setOpen(false)}
-                className="mt-8 block bg-green-600 text-white text-center py-4 rounded-full text-lg font-bold uppercase tracking-widest hover:bg-green-700"
+                className="mt-8 block bg-green-600 text-white text-center py-4 rounded-full text-lg font-bold uppercase tracking-widest hover:bg-green-700 shadow-lg"
               >
                 Plan a visit
               </Link>

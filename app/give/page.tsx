@@ -28,13 +28,12 @@ export default function GivePage() {
       <section className="relative pt-40 pb-32 px-6 bg-stone-950 text-white text-center overflow-hidden">
         <div className="absolute inset-0 opacity-40">
           <Image
-            src="/images/30.jpg"
+            src="/images/52.jpg"
             fill
             className="object-cover"
             alt="Giving"
           />
         </div>
-        <div className="absolute inset-0 bg-linear-to-t from-stone-100 via-stone-900/80 to-stone-900/40" />
         <div className="relative z-10 max-w-3xl mx-auto">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}

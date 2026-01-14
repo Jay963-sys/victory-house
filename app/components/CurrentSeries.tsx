@@ -1,38 +1,62 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { Play, ArrowRight, Headphones } from "lucide-react";
+import { useRef, useState } from "react";
+import {
+  motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+  AnimatePresence,
+} from "framer-motion";
+import { Play, ArrowRight, Headphones, Video, X } from "lucide-react";
 import { urlFor } from "@/sanity/lib/client";
 import { useAudio } from "../context/AudioContext";
 import Image from "next/image";
+
+interface Sermon {
+  title: string;
+  date: string;
+  slug: string;
+  preacher?: string;
+  fileUrl: string;
+  youtubeUrl?: string;
+}
 
 interface SeriesData {
   title: string;
   subtitle: string;
   description: string;
   coverImage: any;
-  recentSermons: {
-    title: string;
-    date: string;
-    slug: string;
-    preacher?: string;
-    fileUrl: string;
-  }[];
+  recentSermons: Sermon[];
+}
+
+function getYouTubeId(url: string) {
+  if (!url) return null;
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const match = url.match(regExp);
+  return match && match[2].length === 11 ? match[2] : null;
 }
 
 export default function CurrentSeries({ data }: { data: SeriesData }) {
   const ref = useRef<HTMLDivElement>(null);
   const { playTrack } = useAudio();
 
+  // State for switching between Audio (Cover Art) and Video (YouTube)
+  const [viewMode, setViewMode] = useState<"cover" | "video">("cover");
+  const [activeVideoSermon, setActiveVideoSermon] = useState<Sermon | null>(
+    data?.recentSermons?.[0] || null
+  );
+
   if (!data) return null;
 
+  // --- 3D TILT LOGIC ---
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const mouseX = useSpring(x, { stiffness: 500, damping: 100 });
   const mouseY = useSpring(y, { stiffness: 500, damping: 100 });
 
   function onMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent) {
+    if (viewMode === "video") return;
     const { left, top, width, height } = currentTarget.getBoundingClientRect();
     x.set(clientX - left - width / 2);
     y.set(clientY - top - height / 2);
@@ -41,18 +65,40 @@ export default function CurrentSeries({ data }: { data: SeriesData }) {
   const rotateX = useTransform(mouseY, [-300, 300], [10, -10]);
   const rotateY = useTransform(mouseX, [-300, 300], [-10, 10]);
 
-  const handlePlay = (sermon: any) => {
+  // --- HANDLERS ---
+  const handleAudioPlay = (sermon: Sermon) => {
     if (!sermon.fileUrl) {
       alert("No audio file found for this sermon.");
       return;
     }
-
+    setViewMode("cover");
     playTrack({
       title: sermon.title,
       preacher: sermon.preacher || "RCCG Victory House",
       src: sermon.fileUrl,
       image: urlFor(data.coverImage).width(200).url(),
     });
+  };
+
+  const handleVideoPlay = (sermon: Sermon) => {
+    if (!sermon.youtubeUrl) {
+      alert("No video available for this sermon.");
+      return;
+    }
+    setActiveVideoSermon(sermon);
+    setViewMode("video");
+  };
+
+  // --- MAIN IMAGE CLICK HANDLER ---
+  const handleMainPlay = () => {
+    const latest = data.recentSermons?.[0];
+    if (!latest) return;
+
+    if (latest.youtubeUrl) {
+      handleVideoPlay(latest);
+    } else {
+      handleAudioPlay(latest);
+    }
   };
 
   const dateFormatter = new Intl.DateTimeFormat("en-GB", {
@@ -63,74 +109,121 @@ export default function CurrentSeries({ data }: { data: SeriesData }) {
 
   return (
     <section className="relative py-32 bg-stone-950 overflow-hidden text-white">
-      {/* Background Ambience - Switched to Green */}
+      {/* Background Ambience */}
       <div className="absolute top-0 right-0 w-125 h-125 bg-green-600/20 blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-125 h-125 bg-blue-900/10 blur-[120px] rounded-full pointer-events-none" />
 
-      {/* Noise Texture */}
       <div
         className="absolute inset-0 opacity-20 pointer-events-none mix-blend-overlay"
         style={{
           backgroundImage:
             'url("https://grainy-gradients.vercel.app/noise.svg")',
         }}
-      ></div>
+      />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
-          {/* LEFT: 3D Series Art */}
+          {/* --- LEFT COLUMN: MEDIA AREA --- */}
           <div
-            className="w-full lg:w-1/2 perspective-1000"
+            className="w-full lg:w-1/2 perspective-1000 relative"
             style={{ perspective: 1000 }}
           >
-            <motion.div
-              ref={ref}
-              onMouseMove={onMouseMove}
-              onMouseLeave={() => {
-                x.set(0);
-                y.set(0);
-              }}
-              style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-              className="relative aspect-4/5 w-full max-w-md mx-auto rounded-xl bg-stone-800 shadow-2xl cursor-pointer group"
-              // CLICK ART TO PLAY LATEST
-              onClick={() =>
-                data.recentSermons?.[0] && handlePlay(data.recentSermons[0])
-              }
-            >
-              <div
-                className="absolute inset-0 rounded-xl overflow-hidden border border-white/10"
-                style={{ transform: "translateZ(20px)" }}
-              >
-                <Image
-                  src={urlFor(data.coverImage).width(800).url()}
-                  width={600}
-                  height={800}
-                  alt={data.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-linear-to-t from-black/80 to-transparent" />
-              </div>
+            <AnimatePresence mode="wait">
+              {viewMode === "cover" ? (
+                // MODE A: 3D COVER ART
+                <motion.div
+                  key="cover"
+                  ref={ref}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, transition: { duration: 0.2 } }}
+                  onMouseMove={onMouseMove}
+                  onMouseLeave={() => {
+                    x.set(0);
+                    y.set(0);
+                  }}
+                  style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+                  className="relative aspect-[4/5] w-full max-w-md mx-auto rounded-xl bg-stone-800 shadow-2xl cursor-pointer group"
+                  onClick={handleMainPlay}
+                >
+                  <div
+                    className="absolute inset-0 rounded-xl overflow-hidden border border-white/10"
+                    style={{ transform: "translateZ(20px)" }}
+                  >
+                    <Image
+                      src={urlFor(data.coverImage).width(800).url()}
+                      width={600}
+                      height={800}
+                      alt={data.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+                  </div>
 
-              {/* Tag stays Red as it indicates "Live/Current" status, or we can make it Green if you prefer */}
-              <div
-                className="absolute top-6 left-6 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full tracking-widest uppercase shadow-lg"
-                style={{ transform: "translateZ(60px)" }}
-              >
-                Current Series
-              </div>
+                  <div
+                    className="absolute top-6 left-6 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full tracking-widest uppercase shadow-lg"
+                    style={{ transform: "translateZ(60px)" }}
+                  >
+                    Latest Message
+                  </div>
 
-              <div
-                className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                style={{ transform: "translateZ(50px)" }}
-              >
-                <div className="w-20 h-20 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30">
-                  <Play className="fill-white text-white ml-1" size={32} />
-                </div>
-              </div>
-            </motion.div>
+                  {/* CONSTANT PLAY BUTTON OVERLAY */}
+                  <div
+                    className="absolute inset-0 flex items-center justify-center transition-all duration-300"
+                    style={{ transform: "translateZ(50px)" }}
+                  >
+                    <div className="w-20 h-20 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30 group-hover:scale-110 group-hover:bg-green-600 group-hover:border-green-500 transition-all duration-300">
+                      {data.recentSermons?.[0]?.youtubeUrl ? (
+                        <Video
+                          className="fill-white text-white ml-1"
+                          size={32}
+                        />
+                      ) : (
+                        <Play
+                          className="fill-white text-white ml-1"
+                          size={32}
+                        />
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              ) : (
+                // MODE B: YOUTUBE PLAYER
+                <motion.div
+                  key="video"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  className="relative aspect-video w-full rounded-2xl overflow-hidden shadow-2xl border border-stone-800 bg-black"
+                >
+                  <button
+                    onClick={() => setViewMode("cover")}
+                    className="absolute top-4 right-4 z-20 bg-black/50 hover:bg-red-600 text-white p-2 rounded-full backdrop-blur-md transition-colors"
+                  >
+                    <X size={16} />
+                  </button>
+
+                  {activeVideoSermon?.youtubeUrl ? (
+                    <iframe
+                      src={`https://www.youtube.com/embed/${getYouTubeId(
+                        activeVideoSermon.youtubeUrl
+                      )}?autoplay=1&rel=0`}
+                      title="Sermon Video"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-stone-500">
+                      Video unavailable
+                    </div>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
-          {/* RIGHT: Typography & Content */}
+          {/* --- RIGHT COLUMN: INFO & CONTROLS --- */}
           <div className="w-full lg:w-1/2 text-center lg:text-left">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -146,7 +239,7 @@ export default function CurrentSeries({ data }: { data: SeriesData }) {
               </div>
 
               <h2 className="text-5xl md:text-7xl font-serif font-bold mb-6 leading-[0.9]">
-                <span className="text-transparent bg-clip-text bg-linear-to-r from-white via-green-100 to-green-500">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-green-100 to-green-500">
                   {data.title}
                 </span>
               </h2>
@@ -155,58 +248,51 @@ export default function CurrentSeries({ data }: { data: SeriesData }) {
                 {data.description}
               </p>
 
-              {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
-                <button
-                  onClick={() =>
-                    data.recentSermons?.[0] && handlePlay(data.recentSermons[0])
-                  }
-                  className="group relative px-8 py-4 bg-white text-stone-900 rounded-full font-bold overflow-hidden transition-all hover:scale-105"
-                >
-                  <span className="relative z-10 flex items-center gap-2">
-                    <Play size={18} className="fill-stone-900" /> Listen to
-                    Latest
-                  </span>
-                  <div className="absolute inset-0 bg-green-500 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
-                </button>
-
-                <button className="px-8 py-4 rounded-full font-bold text-white border border-white/20 hover:bg-white/10 transition-colors flex items-center gap-2">
-                  <Headphones size={18} /> Podcast Archive
-                </button>
-              </div>
-
-              {/* Recent Messages Section */}
-              <div className="mt-16 pt-8 border-t border-white/10">
+              {/* RECENT MESSAGES LIST (LAST 3) */}
+              <div className="pt-8 border-t border-white/10 text-left">
                 <p className="text-sm font-bold text-stone-500 uppercase tracking-widest mb-6">
                   Recent Messages
                 </p>
 
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {data.recentSermons && data.recentSermons.length > 0 ? (
-                    data.recentSermons.map((sermon, i) => (
+                    data.recentSermons.slice(0, 3).map((sermon, i) => (
                       <div
                         key={i}
-                        // CLICK TO PLAY INDIVIDUAL SERMON
-                        onClick={() => handlePlay(sermon)}
-                        className="group flex items-center justify-between py-3 px-4 rounded-lg hover:bg-white/5 cursor-pointer transition-colors"
+                        className="group flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-colors border border-white/5 hover:border-white/10"
                       >
-                        <div className="flex items-center gap-4">
-                          <div className="w-8 h-8 rounded-full bg-stone-800 flex items-center justify-center text-stone-500 group-hover:text-green-500 transition-colors">
-                            <Play size={12} className="fill-current" />
-                          </div>
-                          <div>
-                            <h4 className="font-bold text-stone-200 group-hover:text-white transition-colors">
-                              {sermon.title}
-                            </h4>
-                            <p className="text-xs text-stone-500">
-                              {dateFormatter.format(new Date(sermon.date))}
-                            </p>
-                          </div>
+                        {/* Sermon Info */}
+                        <div className="mb-4 sm:mb-0">
+                          <h4 className="font-bold text-stone-200 group-hover:text-white transition-colors truncate max-w-[200px] md:max-w-[260px]">
+                            {sermon.title}
+                          </h4>
+                          <p className="text-xs text-stone-500 mt-1">
+                            {dateFormatter.format(new Date(sermon.date))}
+                          </p>
                         </div>
-                        <ArrowRight
-                          size={16}
-                          className="text-stone-600 group-hover:text-green-500 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0"
-                        />
+
+                        {/* Distinct Buttons */}
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => handleAudioPlay(sermon)}
+                            className="flex items-center gap-2 px-3 py-2 rounded-lg bg-stone-800 hover:bg-green-600 text-stone-400 hover:text-white transition-colors text-xs font-bold uppercase tracking-wider"
+                            title="Listen to Audio"
+                          >
+                            <Headphones size={14} />
+                            <span>Listen</span>
+                          </button>
+
+                          {sermon.youtubeUrl && (
+                            <button
+                              onClick={() => handleVideoPlay(sermon)}
+                              className="flex items-center gap-2 px-3 py-2 rounded-lg bg-stone-800 hover:bg-red-600 text-stone-400 hover:text-white transition-colors text-xs font-bold uppercase tracking-wider"
+                              title="Watch Video"
+                            >
+                              <Video size={14} />
+                              <span>Watch</span>
+                            </button>
+                          )}
+                        </div>
                       </div>
                     ))
                   ) : (

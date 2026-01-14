@@ -67,5 +67,12 @@ export default defineType({
       type: "boolean",
       initialValue: false,
     }),
+    defineField({
+      name: "youtubeUrl",
+      title: "YouTube Video URL",
+      type: "url",
+      description:
+        "Paste the full YouTube link (e.g. https://www.youtube.com/watch?v=...)",
+    }),
   ],
 });

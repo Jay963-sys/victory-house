@@ -1,10 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Play, Calendar, User, Filter } from "lucide-react";
+import {
+  Search,
+  Play,
+  Calendar,
+  User,
+  Video,
+  Headphones,
+  X,
+  ArrowUpRight,
+} from "lucide-react";
 import { useAudio } from "../context/AudioContext";
-import Image from "next/image";
 
 // Define the shape of a Sermon
 interface Sermon {
@@ -15,13 +23,27 @@ interface Sermon {
   seriesTitle: string;
   imageUrl: string;
   fileUrl: string;
+  youtubeUrl?: string;
+}
+
+// Helper to extract YouTube ID
+function getYouTubeId(url: string) {
+  if (!url) return null;
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const match = url.match(regExp);
+  return match && match[2].length === 11 ? match[2] : null;
 }
 
 export default function SermonArchive({ sermons }: { sermons: Sermon[] }) {
   const [searchQuery, setSearchQuery] = useState("");
   const { playTrack } = useAudio();
 
-  // Filter Logic: Matches Title OR Preacher OR Series
+  // State for the Video Modal
+  const [selectedVideoSermon, setSelectedVideoSermon] = useState<Sermon | null>(
+    null
+  );
+
+  // Filter Logic
   const filteredSermons = sermons.filter((sermon) => {
     const query = searchQuery.toLowerCase();
     return (
@@ -30,6 +52,15 @@ export default function SermonArchive({ sermons }: { sermons: Sermon[] }) {
       sermon.seriesTitle?.toLowerCase().includes(query)
     );
   });
+
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (selectedVideoSermon) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  }, [selectedVideoSermon]);
 
   return (
     <section className="bg-stone-50 min-h-screen py-24">
@@ -70,19 +101,7 @@ export default function SermonArchive({ sermons }: { sermons: Sermon[] }) {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 whileHover={{ y: -5 }}
-                className="bg-white rounded-2xl overflow-hidden shadow-sm border border-stone-100 group cursor-pointer"
-                onClick={() => {
-                  if (sermon.fileUrl) {
-                    playTrack({
-                      title: sermon.title,
-                      preacher: sermon.preacher || "Victory House",
-                      src: sermon.fileUrl,
-                      image: sermon.imageUrl,
-                    });
-                  } else {
-                    alert("Audio coming soon!");
-                  }
-                }}
+                className="bg-white rounded-2xl overflow-hidden shadow-sm border border-stone-100 flex flex-col h-full"
               >
                 {/* Image Section */}
                 <div className="aspect-video relative overflow-hidden bg-stone-200">
@@ -100,40 +119,72 @@ export default function SermonArchive({ sermons }: { sermons: Sermon[] }) {
                     </div>
                   )}
 
-                  {/* Play Button Overlay */}
-                  <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">
-                    <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-lg transform scale-50 group-hover:scale-100 transition-transform duration-300">
-                      <Play
-                        className="fill-stone-900 text-stone-900 ml-1"
-                        size={24}
-                      />
-                    </div>
-                  </div>
-
                   {/* Series Badge */}
                   {sermon.seriesTitle && (
-                    <div className="absolute top-4 left-4 bg-stone-900/80 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">
+                    <div className="absolute top-4 left-4 bg-stone-900/90 backdrop-blur-sm text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow-lg">
                       {sermon.seriesTitle}
                     </div>
                   )}
                 </div>
 
                 {/* Info Section */}
-                <div className="p-6">
-                  <div className="flex items-center gap-4 text-xs font-bold text-stone-400 uppercase tracking-wider mb-3">
+                <div className="p-6 flex flex-col flex-grow">
+                  <div className="flex items-center gap-3 text-xs font-bold text-stone-400 uppercase tracking-wider mb-3">
                     <span className="flex items-center gap-1">
                       <Calendar size={12} />{" "}
                       {new Date(sermon.date).toLocaleDateString()}
                     </span>
                     <span className="w-1 h-1 bg-stone-300 rounded-full" />
-                    <span className="flex items-center gap-1 text-green-600">
+                    <span className="flex items-center gap-1 text-green-600 truncate">
                       <User size={12} /> {sermon.preacher}
                     </span>
                   </div>
 
-                  <h3 className="font-serif font-bold text-2xl text-stone-900 leading-tight group-hover:text-green-600 transition-colors">
+                  <h3 className="font-serif font-bold text-2xl text-stone-900 leading-tight mb-6">
                     {sermon.title}
                   </h3>
+
+                  {/* BUTTONS ROW (Always Visible) */}
+                  <div className="mt-auto grid grid-cols-2 gap-3">
+                    {/* Listen Button */}
+                    <button
+                      onClick={() => {
+                        if (sermon.fileUrl) {
+                          playTrack({
+                            title: sermon.title,
+                            preacher: sermon.preacher || "Victory House",
+                            src: sermon.fileUrl,
+                            image: sermon.imageUrl,
+                          });
+                        } else {
+                          alert("Audio coming soon!");
+                        }
+                      }}
+                      className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-stone-100 text-stone-600 font-bold text-xs uppercase tracking-wider hover:bg-green-600 hover:text-white transition-colors"
+                    >
+                      <Headphones size={16} />
+                      Listen
+                    </button>
+
+                    {/* Watch Button */}
+                    {sermon.youtubeUrl ? (
+                      <button
+                        onClick={() => setSelectedVideoSermon(sermon)}
+                        className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-stone-900 text-white font-bold text-xs uppercase tracking-wider hover:bg-red-600 transition-colors"
+                      >
+                        <Video size={16} />
+                        Watch
+                      </button>
+                    ) : (
+                      <button
+                        disabled
+                        className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-stone-50 text-stone-300 font-bold text-xs uppercase tracking-wider cursor-not-allowed"
+                      >
+                        <Video size={16} />
+                        No Video
+                      </button>
+                    )}
+                  </div>
                 </div>
               </motion.div>
             ))}
@@ -155,6 +206,65 @@ export default function SermonArchive({ sermons }: { sermons: Sermon[] }) {
           </div>
         )}
       </div>
+
+      {/* --- VIDEO MODAL --- */}
+      <AnimatePresence>
+        {selectedVideoSermon && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-950/90 backdrop-blur-md"
+            onClick={() => setSelectedVideoSermon(null)}
+          >
+            {/* Modal Container */}
+            <motion.div
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+              className="relative w-full max-w-5xl bg-black rounded-3xl overflow-hidden shadow-2xl border border-stone-800"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between p-6 bg-stone-900 border-b border-stone-800">
+                <div>
+                  <h3 className="text-xl font-bold text-white">
+                    {selectedVideoSermon.title}
+                  </h3>
+                  <p className="text-stone-400 text-sm">
+                    {selectedVideoSermon.preacher}
+                  </p>
+                </div>
+                <button
+                  onClick={() => setSelectedVideoSermon(null)}
+                  className="p-2 bg-stone-800 rounded-full text-stone-400 hover:text-white hover:bg-red-600 transition-colors"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              {/* YouTube Player */}
+              <div className="aspect-video w-full bg-black">
+                {selectedVideoSermon.youtubeUrl ? (
+                  <iframe
+                    src={`https://www.youtube.com/embed/${getYouTubeId(
+                      selectedVideoSermon.youtubeUrl
+                    )}?autoplay=1&modestbranding=1`}
+                    title={selectedVideoSermon.title}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="w-full h-full"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-stone-500">
+                    Video Unavailable
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

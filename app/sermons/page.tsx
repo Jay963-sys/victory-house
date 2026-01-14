@@ -10,12 +10,10 @@ const allSermonsQuery = groq`
     title,
     preacher,
     date,
-    // Fetch the linked series title
     "seriesTitle": series->title,
-    // Fetch the linked series image (referencing the coverImage inside the series)
     "imageUrl": series->coverImage.asset->url,
-    // Fetch the audio
-    "fileUrl": audioFile.asset->url
+    "fileUrl": audioFile.asset->url,
+    youtubeUrl // <--- ADDED THIS FIELD
   }
 `;
 
@@ -31,14 +29,14 @@ export default async function SermonsPage() {
         {/* Background Image */}
         <div className="absolute inset-0 opacity-50">
           <Image
-            src="/images/27.jpg"
+            src="/images/27.jpg" // Ensure this image exists in your public folder
             alt="The Word"
             fill
             className="object-cover"
           />
         </div>
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-linear-to-t from-stone-900 via-stone-900/60 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-stone-900/60 to-transparent" />
 
         <div className="relative z-10">
           <h1 className="text-5xl md:text-7xl font-serif font-bold text-white mb-6">

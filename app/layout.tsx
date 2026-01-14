@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { AudioProvider } from "./context/AudioContext";
 import AudioPlayer from "./components/AudioPlayer";
+import AIChatbot from "./components/AIChatbot";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const playfair = Playfair_Display({
@@ -68,6 +69,7 @@ export default function RootLayout({
           <AudioProvider>
             <Navbar />
             {children}
+            <AIChatbot />
             <Footer />
             <AudioPlayer />
           </AudioProvider>

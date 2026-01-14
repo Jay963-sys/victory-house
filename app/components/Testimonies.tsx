@@ -6,7 +6,7 @@ import { Quote, ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/client";
 
-export interface Testimonial {
+export interface Testimony {
   _id: string;
   name: string;
   role: string;
@@ -14,18 +14,18 @@ export interface Testimonial {
   photo: any;
 }
 
-export default function Testimonials({ items }: { items: Testimonial[] }) {
+export default function Testimonies({ items }: { items: Testimony[] }) {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // If no testimonials exist yet, hide the section
+  // If no testimonies exist yet, hide the section
   if (!items || items.length === 0) return null;
 
   return (
     <section className="py-24 bg-stone-900 text-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
-          <div className="max-w-2xl">
+        <div className="flex flex-col md:flex-row justify-between md:items-end mb-16 gap-8">
+          <div className="max-w-2xl text-left md:text-left">
             <motion.span
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}

@@ -5,10 +5,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Heart, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 
-// Images for the DNA Box slideshow
 const DNA_IMAGES = [
   "/images/11.jpg",
-  "/images/5.jpg", // Assuming these exist from your hero list
+  "/images/5.jpg",
   "/images/13.jpg",
   "/images/16.jpg",
 ];
@@ -28,7 +27,6 @@ const Box = ({ children, className, delay }: any) => (
 export default function BentoGrid() {
   const [currentDnaImage, setCurrentDnaImage] = useState(0);
 
-  // Cycle through DNA images every 4 seconds
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentDnaImage((prev) => (prev + 1) % DNA_IMAGES.length);
@@ -39,9 +37,9 @@ export default function BentoGrid() {
   return (
     <section className="py-24 px-4 max-w-7xl mx-auto">
       <div className="mb-12">
-        <h2 className="text-4xl md:text-6xl font-serif font-bold text-stone-300 mb-4">
+        <h2 className="text-4xl md:text-6xl font-serif font-bold leading-tight">
           Not just a building. <br />
-          <span className="text-stone-200 italic">A movement.</span>
+          <span className="text-stone-500 italic">A movement.</span>
         </h2>
       </div>
 
