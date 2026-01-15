@@ -4,6 +4,7 @@ import Marquee from "./components/Marquee";
 import EventsSection from "./components/EventsSection";
 import CurrentSeries from "./components/CurrentSeries";
 import Testimonies from "./components/Testimonies";
+import SocialGrid from "./components/SocialGrid"; // <--- Import it
 import { client } from "@/sanity/lib/client";
 import { groq } from "next-sanity";
 
@@ -38,6 +39,7 @@ export default async function Home() {
       <CurrentSeries data={data.series} />
       <EventsSection events={data.events} />
       <Testimonies items={data.testimonies} />
+      <SocialGrid />
     </main>
   );
 }

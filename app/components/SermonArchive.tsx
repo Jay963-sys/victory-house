@@ -132,7 +132,11 @@ export default function SermonArchive({ sermons }: { sermons: Sermon[] }) {
                   <div className="flex items-center gap-3 text-xs font-bold text-stone-400 uppercase tracking-wider mb-3">
                     <span className="flex items-center gap-1">
                       <Calendar size={12} />{" "}
-                      {new Date(sermon.date).toLocaleDateString()}
+                      {new Date(sermon.date).toLocaleDateString("en-GB", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                      })}
                     </span>
                     <span className="w-1 h-1 bg-stone-300 rounded-full" />
                     <span className="flex items-center gap-1 text-green-600 truncate">
