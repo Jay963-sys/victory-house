@@ -13,7 +13,7 @@ const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-playfair",
 });
-const siteUrl = "https://rccgvictoryalltheway.org";
+const siteUrl = "https://victoryalltheway.org";
 
 export const metadata: Metadata = {
   title: {
