@@ -132,7 +132,7 @@ export default function Footer() {
               Explore
             </h4>
             <ul className="space-y-4">
-              {["Sermons", "Events", "Media", "About", "Give"].map((item) => (
+              {["Sermons", "Events", "Ministries", "About", "Connect", "Give"].map((item) => (
                 <motion.li key={item} variants={itemVariants}>
                   <Link
                     href={`/${item.toLowerCase().replace(" ", "")}`} // simple url generator
