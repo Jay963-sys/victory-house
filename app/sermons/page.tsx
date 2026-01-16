@@ -29,7 +29,7 @@ export default async function SermonsPage() {
         {/* Background Image */}
         <div className="absolute inset-0 opacity-50">
           <Image
-            src="/images/27.jpg" // Ensure this image exists in your public folder
+            src="/images/27.jpg" 
             alt="The Word"
             fill
             className="object-cover"
