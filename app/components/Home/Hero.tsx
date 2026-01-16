@@ -50,7 +50,7 @@ export default function Hero() {
             className="absolute inset-0 w-full h-full object-cover"
           >
             {/* Make sure to put your video file in public/videos/ */}
-            <source src="/1.mp4" type="video/mp4" />
+            <source src="/vch.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         </div>
