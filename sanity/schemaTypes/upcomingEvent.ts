@@ -42,5 +42,12 @@ export default defineType({
       title: "Registration/Link (Optional)",
       type: "url",
     }),
+    defineField({
+      name: "flyerLink",
+      title: "Flyer Click Link",
+      description:
+        "Where should they go if they click the image? (e.g., Instagram Post)",
+      type: "url",
+    }),
   ],
 });

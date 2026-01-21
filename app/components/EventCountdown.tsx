@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import { motion } from "framer-motion";
-import { Calendar, Clock, MapPin, ArrowRight } from "lucide-react";
+import { Calendar, ArrowRight } from "lucide-react";
 import { urlFor } from "@/sanity/lib/client";
 
 interface TimeLeft {
@@ -21,6 +20,7 @@ interface EventData {
   flyer: any;
   description: string;
   registrationLink?: string;
+  flyerLink?: string;
 }
 
 export default function EventCountdown({ data }: { data: EventData }) {
@@ -60,6 +60,9 @@ export default function EventCountdown({ data }: { data: EventData }) {
   }, [data?.eventDate]);
 
   if (!data?.isActive || status === "expired") return null;
+
+  // Determine the link to use: flyerLink > registrationLink > null
+  const imageLink = data.flyerLink || data.registrationLink;
 
   return (
     <section className="py-20 bg-stone-950 relative overflow-hidden">
@@ -103,6 +106,7 @@ export default function EventCountdown({ data }: { data: EventData }) {
                 <a
                   href={data.registrationLink}
                   target="_blank"
+                  rel="noopener noreferrer"
                   className="px-8 py-4 bg-green-600 text-white font-bold rounded-full hover:bg-green-700 transition-colors flex items-center gap-2 shadow-lg hover:shadow-green-900/20"
                 >
                   Register Now <ArrowRight size={18} />
@@ -125,27 +129,67 @@ export default function EventCountdown({ data }: { data: EventData }) {
             className="order-1 lg:order-2 flex justify-center lg:justify-end"
           >
             {data.flyer && (
-              <div className="relative w-full rounded-2xl overflow-hidden border-4 md:border-8 border-stone-800 shadow-2xl hover:scale-[1.02] transition-transform duration-500">
-                {/* Use Sanity's image optimization directly */}
-                <img
-                  src={urlFor(data.flyer)
-                    .width(1200)
-                    .quality(85)
-                    .auto("format")
-                    .url()}
-                  srcSet={`
-                    ${urlFor(data.flyer).width(640).quality(85).auto("format").url()} 640w,
-                    ${urlFor(data.flyer).width(828).quality(85).auto("format").url()} 828w,
-                    ${urlFor(data.flyer).width(1200).quality(85).auto("format").url()} 1200w
-                  `}
-                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 600px"
-                  alt={data.title}
-                  className="w-full h-auto max-h-[400px] md:max-h-[500px] object-contain"
-                  loading="eager"
-                />
+              <div className="relative w-full rounded-2xl overflow-hidden border-4 md:border-8 border-stone-800 shadow-2xl group">
+                {imageLink ? (
+                  <a
+                    href={imageLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block relative"
+                  >
+                    {/* Flyer Image */}
+                    <img
+                      src={urlFor(data.flyer)
+                        .width(1200)
+                        .quality(85)
+                        .auto("format")
+                        .url()}
+                      srcSet={`
+                        ${urlFor(data.flyer).width(640).quality(85).auto("format").url()} 640w,
+                        ${urlFor(data.flyer).width(828).quality(85).auto("format").url()} 828w,
+                        ${urlFor(data.flyer).width(1200).quality(85).auto("format").url()} 1200w
+                      `}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 600px"
+                      alt={data.title}
+                      className="w-full h-auto max-h-[400px] md:max-h-[500px] object-contain transition-transform duration-500 group-hover:scale-105"
+                      loading="eager"
+                    />
 
-                {/* Glossy overlay effect */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-transparent pointer-events-none" />
+                    {/* Glossy overlay effect */}
+                    <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-transparent pointer-events-none" />
+
+                    {/* Hover overlay */}
+                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <div className="bg-white/10 backdrop-blur-md border border-white/30 text-white px-6 py-3 rounded-full flex items-center gap-2 font-bold transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                        <span>View Post</span>
+                        <ArrowRight size={16} />
+                      </div>
+                    </div>
+                  </a>
+                ) : (
+                  <>
+                    {/* Flyer Image (non-clickable) */}
+                    <img
+                      src={urlFor(data.flyer)
+                        .width(1200)
+                        .quality(85)
+                        .auto("format")
+                        .url()}
+                      srcSet={`
+                        ${urlFor(data.flyer).width(640).quality(85).auto("format").url()} 640w,
+                        ${urlFor(data.flyer).width(828).quality(85).auto("format").url()} 828w,
+                        ${urlFor(data.flyer).width(1200).quality(85).auto("format").url()} 1200w
+                      `}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 600px"
+                      alt={data.title}
+                      className="w-full h-auto max-h-[400px] md:max-h-[500px] object-contain"
+                      loading="eager"
+                    />
+
+                    {/* Glossy overlay effect */}
+                    <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-transparent pointer-events-none" />
+                  </>
+                )}
               </div>
             )}
           </motion.div>
