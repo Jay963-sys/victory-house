@@ -8,6 +8,7 @@ import sermon from "./sermon";
 import event from "./event";
 import series from "./series";
 import Testimonies from "./testimony";
+import upcomingEvent from "./upcomingEvent";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -19,5 +20,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     event,
     series,
     Testimonies,
+    upcomingEvent,
   ],
 };

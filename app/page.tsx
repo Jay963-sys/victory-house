@@ -4,9 +4,10 @@ import Marquee from "./components/Marquee";
 import EventsSection from "./components/EventsSection";
 import CurrentSeries from "./components/CurrentSeries";
 import Testimonies from "./components/Testimonies";
-import SocialGrid from "./components/SocialGrid"; // <--- Import it
+import SocialGrid from "./components/SocialGrid";
 import { client } from "@/sanity/lib/client";
 import { groq } from "next-sanity";
+import EventCountdown from "./components/EventCountdown";
 
 const homeQuery = groq`
   {
@@ -25,16 +26,33 @@ const homeQuery = groq`
     }
   }
 `;
+const eventQuery = `*[_type == "upcomingEvent" && isActive == true] | order(eventDate asc)[0]`;
 
 export const revalidate = 60;
 
 export default async function Home() {
   const data = await client.fetch(homeQuery);
+  const eventData = await client.fetch(eventQuery);
+  const formattedEventDate = eventData?.eventDate
+    ? new Date(eventData.eventDate).toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      })
+    : "";
 
   return (
     <main className="min-h-screen">
       <Hero />
       <Marquee />
+      {eventData && (
+        <EventCountdown
+          data={{
+            ...eventData,
+            formattedEventDate,
+          }}
+        />
+      )}{" "}
       <BentoGrid />
       <CurrentSeries data={data.series} />
       <EventsSection events={data.events} />

@@ -132,7 +132,14 @@ export default function Footer() {
               Explore
             </h4>
             <ul className="space-y-4">
-              {["Sermons", "Events", "Ministries", "About", "Connect", "Give"].map((item) => (
+              {[
+                "Sermons",
+                "Events",
+                "Ministries",
+                "About",
+                "Connect",
+                "Give",
+              ].map((item) => (
                 <motion.li key={item} variants={itemVariants}>
                   <Link
                     href={`/${item.toLowerCase().replace(" ", "")}`} // simple url generator
@@ -240,7 +247,10 @@ export default function Footer() {
           </p>
 
           <div className="flex items-center gap-6">
-            <Link href="#" className="hover:text-stone-400 transition-colors">
+            <Link
+              href="/privacy-policy"
+              className="hover:text-stone-400 transition-colors"
+            >
               Privacy Policy
             </Link>
           </div>
