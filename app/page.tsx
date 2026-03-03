@@ -31,7 +31,11 @@ export const revalidate = 60;
 
 export default async function Home() {
   const data = await client.fetch(homeQuery, {}, { next: { revalidate: 60 } });
-  const eventData = await client.fetch(eventQuery);
+  const eventData = await client.fetch(
+    eventQuery,
+    {},
+    { next: { revalidate: 60 } },
+  );
   const formattedEventDate = eventData?.eventDate
     ? new Date(eventData.eventDate).toLocaleDateString("en-US", {
         month: "long",
