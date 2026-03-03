@@ -26,12 +26,11 @@ const homeQuery = groq`
     }
   }
 `;
-const eventQuery = `*[_type == "upcomingEvent" && isActive == true] | order(eventDate asc)[0]`;
-
+const eventQuery = `*[_type == "upcomingEvent" && isActive == true && eventDate >= now()] | order(eventDate asc)[0]`;
 export const revalidate = 60;
 
 export default async function Home() {
-  const data = await client.fetch(homeQuery);
+  const data = await client.fetch(homeQuery, {}, { next: { revalidate: 60 } });
   const eventData = await client.fetch(eventQuery);
   const formattedEventDate = eventData?.eventDate
     ? new Date(eventData.eventDate).toLocaleDateString("en-US", {
