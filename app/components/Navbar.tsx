@@ -5,11 +5,20 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { ChevronDown } from "lucide-react";
 
+// 1. UPDATED NAV ITEMS ARRAY WITH SUB-ITEMS
 const navItems = [
   { label: "Home", href: "/" },
   { label: "Sermons", href: "/sermons" },
-  { label: "Events", href: "/events" },
+  {
+    label: "Events",
+    href: "#", // Parent acts as a toggle, not a link
+    subItems: [
+      { label: "Upcoming Events", href: "/events" },
+      { label: "Special Programs", href: "/programs" },
+    ],
+  },
   { label: "Ministries", href: "/ministries" },
   { label: "About", href: "/about" },
   { label: "Connect", href: "/connect" },
@@ -86,7 +95,6 @@ export default function Navbar() {
             href="/"
             className="relative z-50 flex items-center gap-3 group"
           >
-            {/* Logo Container */}
             <div
               className={`relative w-10 h-10 md:w-12 md:h-12 bg-white rounded-full p-0.5 shadow-sm transition-transform group-hover:scale-105 ${scrolled || open ? "shadow-md" : ""}`}
             >
@@ -98,7 +106,6 @@ export default function Navbar() {
               />
             </div>
 
-            {/* Text Stack */}
             <div className="flex flex-col leading-none">
               <span
                 className={`font-sans font-bold text-lg md:text-xl uppercase tracking-tight transition-colors ${
@@ -125,15 +132,62 @@ export default function Navbar() {
           {/* DESKTOP NAV */}
           <nav className="hidden md:flex items-center gap-8">
             {navItems.map((item) => {
-              const isActive = pathname === item.href;
+              // 2. CHECK IF ACTIVE (Includes checking sub-items)
+              const isActive =
+                pathname === item.href ||
+                item.subItems?.some((sub) => pathname === sub.href);
               const baseColor = scrolled ? "text-stone-600" : "text-white/90";
               const hoverColor = scrolled ? "text-stone-900" : "text-white";
 
+              // 3. RENDER DROPDOWN FOR ITEMS WITH SUB-ITEMS
+              if (item.subItems) {
+                return (
+                  <div
+                    key={item.label}
+                    className="relative group flex flex-col items-center py-6 cursor-default"
+                  >
+                    <span
+                      className={`flex items-center gap-1 text-xs font-bold uppercase tracking-widest transition-colors ${baseColor} ${
+                        isActive ? "text-green-500" : ""
+                      } group-hover:${hoverColor}`}
+                    >
+                      {item.label}{" "}
+                      <ChevronDown
+                        size={14}
+                        className="group-hover:rotate-180 transition-transform duration-300"
+                      />
+                    </span>
+
+                    {isActive && (
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        className="absolute bottom-2 w-1 h-1 bg-green-500 rounded-full"
+                      />
+                    )}
+
+                    {/* The Dropdown Card */}
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 w-48 bg-white border border-stone-100 rounded-2xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top -translate-y-2 group-hover:translate-y-0 flex flex-col overflow-hidden">
+                      {item.subItems.map((sub) => (
+                        <Link
+                          key={sub.href}
+                          href={sub.href}
+                          className="px-5 py-4 text-xs font-bold uppercase tracking-widest text-stone-600 hover:text-green-600 hover:bg-stone-50 transition-colors border-b border-stone-50 last:border-0"
+                        >
+                          {sub.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                );
+              }
+
+              // STANDARD RENDER FOR NORMAL LINKS
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="relative group flex flex-col items-center"
+                  className="relative group flex flex-col items-center py-6"
                 >
                   <span
                     className={`text-xs font-bold uppercase tracking-widest transition-colors ${baseColor} ${
@@ -147,7 +201,7 @@ export default function Navbar() {
                     <motion.div
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
-                      className="absolute -bottom-2 w-1 h-1 bg-green-500 rounded-full"
+                      className="absolute bottom-2 w-1 h-1 bg-green-500 rounded-full"
                     />
                   )}
                 </Link>
@@ -205,32 +259,45 @@ export default function Navbar() {
             animate={{ y: 0 }}
             exit={{ y: "-100%" }}
             transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
-            // FIX APPLIED HERE:
-            // 1. overflow-y-auto (allows scrolling on small screens)
-            // 2. justify-start (starts content from top instead of center)
-            // 3. pt-32 (adds padding so links aren't hidden behind the logo)
             className="fixed inset-0 bg-stone-950 z-40 overflow-y-auto flex flex-col items-center justify-start px-6 pt-32 pb-12"
           >
             <nav className="flex flex-col gap-6 w-full max-w-md text-center">
               {navItems.map((item, index) => (
                 <motion.div
-                  key={item.href}
+                  key={item.label}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.08 }}
+                  className="border-b border-stone-800 pb-4"
                 >
-                  <Link
-                    href={item.href}
-                    onClick={() => setOpen(false)}
-                    className="flex items-baseline justify-center gap-4 border-b border-stone-800 pb-4"
-                  >
-                    <span className="text-sm font-mono text-green-500">
-                      0{index + 1}
-                    </span>
-                    <span className="text-4xl font-serif text-white hover:text-green-500 transition-colors">
-                      {item.label}
-                    </span>
-                  </Link>
+                  {/* 4. RENDER MOBILE NESTED LINKS */}
+                  {item.subItems ? (
+                    <div className="flex flex-col gap-4 items-center">
+                      <span className="text-sm font-mono text-green-700 uppercase tracking-widest">
+                        {item.label}
+                      </span>
+                      {item.subItems.map((sub) => (
+                        <Link
+                          key={sub.href}
+                          href={sub.href}
+                          onClick={() => setOpen(false)}
+                          className="text-4xl font-serif text-white hover:text-green-500 transition-colors"
+                        >
+                          {sub.label}
+                        </Link>
+                      ))}
+                    </div>
+                  ) : (
+                    <Link
+                      href={item.href}
+                      onClick={() => setOpen(false)}
+                      className="flex items-baseline justify-center gap-4"
+                    >
+                      <span className="text-4xl font-serif text-white hover:text-green-500 transition-colors">
+                        {item.label}
+                      </span>
+                    </Link>
+                  )}
                 </motion.div>
               ))}
 

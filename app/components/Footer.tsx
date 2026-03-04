@@ -138,6 +138,7 @@ export default function Footer() {
                 "Ministries",
                 "About",
                 "Connect",
+                "Programs",
                 "Give",
               ].map((item) => (
                 <motion.li key={item} variants={itemVariants}>
