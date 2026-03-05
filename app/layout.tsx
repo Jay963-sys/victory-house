@@ -26,24 +26,24 @@ const siteUrl = "https://victoryalltheway.org";
 
 export const metadata: Metadata = {
   title: {
-    default: "RCCG Victory Chapel",
-    template: "%s | RCCG Victory Chapel",
+    default: "RCCG Victory House",
+    template: "%s | RCCG Victory House",
   },
   description:
-    "RCCG Victory Chapel is a vibrant Christian church dedicated to worship, fellowship, and spiritual growth.",
+    "RCCG Victory House is a vibrant Christian church dedicated to worship, fellowship, and spiritual growth.",
 
   openGraph: {
-    title: "RCCG Victory Chapel",
+    title: "RCCG Victory House",
     description:
       "A Christ-centered church community committed to faith, worship, and growth.",
     url: siteUrl,
-    siteName: "RCCG Victory Chapel",
+    siteName: "RCCG Victory House",
     images: [
       {
         url: `${siteUrl}/rccg.png`,
         width: 1200,
         height: 630,
-        alt: "RCCG Victory Chapel",
+        alt: "RCCG Victory House",
       },
     ],
     locale: "en_US",
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "RCCG Victory Chapel",
+    title: "RCCG Victory House",
     description:
       "A Christ-centered church community committed to worship and spiritual growth.",
     images: [`${siteUrl}/rccg.png`],
