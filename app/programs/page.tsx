@@ -47,7 +47,8 @@ export default async function ProgramsPage() {
           <h1 className="text-5xl md:text-7xl font-serif font-bold mb-6 drop-shadow-lg">
             {program.title}
           </h1>
-          <p className="text-lg md:text-xl text-stone-200 mb-8 max-w-2xl mx-auto drop-shadow-md">
+          {/* UPDATED: text-sm on mobile, text-left on mobile for readability */}
+          <p className="text-sm md:text-xl text-white md:text-stone-200 mb-8 max-w-2xl mx-auto drop-shadow-lg font-medium leading-relaxed text-left md:text-center px-2 sm:px-4">
             {program.about}
           </p>
 
@@ -86,23 +87,30 @@ export default async function ProgramsPage() {
                 Schedule
               </h2>
 
-              <div className="space-y-4 mb-10">
+              {/* COMPACTED: space-y-3 instead of space-y-4 */}
+              <div className="space-y-3 mb-10">
                 {program.schedule.map((item: any, index: number) => (
                   <div
                     key={index}
-                    className="bg-white p-6 rounded-2xl shadow-sm border border-stone-100 flex flex-col sm:flex-row sm:items-center gap-4"
+                    /* COMPACTED: p-4 sm:p-5, gap-2 sm:gap-4, rounded-xl */
+                    className="bg-white p-4 sm:p-5 rounded-xl shadow-sm border border-stone-100 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4"
                   >
                     <div className="sm:w-1/3 sm:border-r border-stone-100 sm:pr-4">
-                      <h4 className="font-bold text-stone-900 flex items-center gap-2 mb-1">
-                        <Calendar size={16} className="text-green-600" />{" "}
+                      {/* COMPACTED: mb-0.5, smaller text sizes */}
+                      <h4 className="font-bold text-stone-900 flex items-center gap-2 mb-0.5 text-sm md:text-base">
+                        <Calendar
+                          size={16}
+                          className="text-green-600 shrink-0"
+                        />{" "}
                         {item.day}
                       </h4>
-                      <p className="text-stone-500 flex items-center gap-2 text-sm">
-                        <Clock size={14} /> {item.time}
+                      <p className="text-stone-500 flex items-center gap-2 text-xs md:text-sm">
+                        <Clock size={14} className="shrink-0" /> {item.time}
                       </p>
                     </div>
                     <div className="sm:w-2/3">
-                      <p className="text-lg font-serif text-stone-800">
+                      {/* COMPACTED: slightly smaller serif text */}
+                      <p className="text-base md:text-lg font-serif text-stone-800">
                         {item.activity}
                       </p>
                     </div>
@@ -110,7 +118,7 @@ export default async function ProgramsPage() {
                 ))}
               </div>
 
-              {/* UPDATED: EXTRA REGISTRATION BUTTON + COUNTDOWN SIDE BY SIDE */}
+              {/* EXTRA REGISTRATION BUTTON + COUNTDOWN SIDE BY SIDE */}
               <div className="mt-auto border-t border-stone-200 pt-8 flex flex-col xl:flex-row xl:items-center justify-between gap-8">
                 <div>
                   <p className="text-stone-500 mb-4 font-medium">

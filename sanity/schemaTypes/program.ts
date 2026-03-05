@@ -25,6 +25,13 @@ export default defineType({
       rows: 4,
     }),
     defineField({
+      name: "heroImage",
+      title: "Hero Background Image",
+      description: "Upload a clean, wide background image here",
+      type: "image",
+      options: { hotspot: true },
+    }),
+    defineField({
       name: "registrationLink",
       title: "Registration Link",
       type: "url",
