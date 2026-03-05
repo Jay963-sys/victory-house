@@ -24,6 +24,29 @@ export default defineType({
       type: "text",
       rows: 4,
     }),
+
+    defineField({
+      name: "secondaryText",
+      title: "Secondary Text Box (The 'Rest of the Text')",
+      description:
+        "This text will appear in a nice box right above the flyers and schedule.",
+      type: "text",
+      rows: 4,
+    }),
+    defineField({
+      name: "teensFlyer",
+      title: "Teens Event Flyer (Saturday)",
+      type: "image",
+      options: { hotspot: true },
+    }),
+    defineField({
+      name: "youtubePlaylistUrl",
+      title: "YouTube Playlist Embed URL",
+      description:
+        "Paste the YouTube embed URL here (e.g., https://www.youtube.com/embed/videoseries?list=YOUR_PLAYLIST_ID)",
+      type: "url",
+    }),
+
     defineField({
       name: "heroImage",
       title: "Hero Background Image",
