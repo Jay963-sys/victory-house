@@ -24,8 +24,9 @@ export default async function ProgramsPage() {
   const bgImage = program.heroImage || program.flyer;
 
   return (
-    <main className="min-h-screen bg-stone-50">
-      {/* 1. HEADER SECTION (Shortened Text) */}
+    // ADDED: overflow-x-hidden prevents ANY content from spilling out horizontally
+    <main className="min-h-screen bg-stone-50 overflow-x-hidden">
+      {/* 1. HEADER SECTION */}
       <section className="relative bg-stone-900 text-white py-32 md:py-40 px-6 text-center overflow-hidden">
         {bgImage && (
           <div className="absolute inset-0 z-0">
@@ -35,6 +36,7 @@ export default async function ProgramsPage() {
               fill
               className="object-cover opacity-60 md:opacity-40"
               priority
+              unoptimized
             />
             <div className="absolute inset-0 bg-stone-950/50 md:bg-stone-950/20" />
             <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/80 md:via-stone-900/60 to-transparent" />
@@ -46,11 +48,11 @@ export default async function ProgramsPage() {
             {program.title}
           </h1>
 
-          <p className="text-sm md:text-xl text-white md:text-stone-200 mb-8 max-w-2xl mx-auto drop-shadow-lg font-medium leading-relaxed text-left md:text-center px-2 sm:px-4">
+          {/* CHANGED: Made text explicitly center aligned on all screens */}
+          <p className="text-sm md:text-xl text-white md:text-stone-200 mb-8 max-w-2xl mx-auto drop-shadow-lg font-medium leading-relaxed text-center px-2 sm:px-4">
             {program.about}
           </p>
 
-          {/* TOP BUTTON STAYS HERE AS REQUESTED */}
           {program.registrationLink && (
             <a
               href={program.registrationLink}
@@ -67,7 +69,8 @@ export default async function ProgramsPage() {
       {program.secondaryText && (
         <section className="pt-20 px-6 max-w-4xl mx-auto text-center -mb-8 relative z-20">
           <div className="bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-stone-100">
-            <p className="text-base md:text-lg text-stone-600 leading-relaxed font-medium">
+            {/* CHANGED: Added text-center here too */}
+            <p className="text-base md:text-lg text-stone-600 leading-relaxed font-medium text-center">
               {program.secondaryText}
             </p>
           </div>
@@ -78,7 +81,7 @@ export default async function ProgramsPage() {
       <section className="py-24 px-6 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           {/* Left Column: Main Flyer + Teens Flyer + Massive Button */}
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-8 w-full">
             {program.flyer && (
               <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl border-8 border-white">
                 <Image
@@ -108,7 +111,7 @@ export default async function ProgramsPage() {
 
             {/* Enlarged Bottom Button */}
             {program.registrationLink && (
-              <div className="mt-4">
+              <div className="mt-4 w-full">
                 <a
                   href={program.registrationLink}
                   target="_blank"
@@ -122,24 +125,24 @@ export default async function ProgramsPage() {
 
           {/* Right Column: The Schedule */}
           {program.schedule && program.schedule.length > 0 && (
-            <div className="flex flex-col h-full sticky top-32">
-              <div className="flex items-center justify-between mb-8">
-                <h2 className="text-4xl font-serif font-bold text-stone-900">
+            <div className="flex flex-col h-full sticky top-32 w-full">
+              {/* CHANGED: flex-col on mobile, flex-row on larger screens to stop horizontal spill */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+                <h2 className="text-4xl font-serif font-bold text-stone-900 text-center sm:text-left">
                   Schedule
                 </h2>
-                {/* Countdown moved up next to the Schedule title */}
                 {program.startDate && (
-                  <div className="scale-75 md:scale-90 origin-right">
+                  <div className="scale-90 sm:scale-100 flex justify-center sm:justify-end">
                     <SimpleCountdown targetDate={program.startDate} />
                   </div>
                 )}
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-3 w-full">
                 {program.schedule.map((item: any, index: number) => (
                   <div
                     key={index}
-                    className="bg-white p-4 sm:p-5 rounded-xl shadow-sm border border-stone-100 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 hover:border-green-200 transition-colors"
+                    className="bg-white p-4 sm:p-5 rounded-xl shadow-sm border border-stone-100 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 hover:border-green-200 transition-colors w-full"
                   >
                     <div className="sm:w-1/3 sm:border-r border-stone-100 sm:pr-4">
                       <h4 className="font-bold text-stone-900 flex items-center gap-2 mb-0.5 text-sm md:text-base">
@@ -168,7 +171,7 @@ export default async function ProgramsPage() {
 
       {/* 4. YOUTUBE PLAYLIST SECTION */}
       {program.youtubePlaylistUrl && (
-        <section className="py-24 px-6 bg-stone-200">
+        <section className="py-24 px-6 bg-stone-200 w-full overflow-hidden">
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-serif font-bold text-stone-900 mb-4 flex items-center justify-center gap-3">
@@ -180,7 +183,7 @@ export default async function ProgramsPage() {
               </p>
             </div>
 
-            <div className="relative w-full aspect-video rounded-3xl overflow-hidden shadow-2xl border-8 border-white bg-black">
+            <div className="relative w-full aspect-video rounded-3xl overflow-hidden shadow-2xl border-4 md:border-8 border-white bg-black">
               <iframe
                 src={program.youtubePlaylistUrl}
                 title="YouTube Playlist"
@@ -195,7 +198,7 @@ export default async function ProgramsPage() {
 
       {/* 5. PAST PHOTOS GALLERY */}
       {program.gallery && program.gallery.length > 0 && (
-        <section className="py-24 px-6 bg-stone-950 text-white">
+        <section className="py-24 px-6 bg-stone-950 text-white w-full">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-serif font-bold mb-4">Gallery</h2>
@@ -212,6 +215,7 @@ export default async function ProgramsPage() {
                     alt={`Gallery image ${i + 1}`}
                     fill
                     className="object-cover group-hover:scale-110 transition-transform duration-700"
+                    unoptimized
                   />
                 </div>
               ))}
